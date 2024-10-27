@@ -1,5 +1,8 @@
 package dsi;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -15,40 +18,39 @@ public class Lanzador {
 		KieContainer kContainer = ks.getKieClasspathContainer();
 		
 		KieSession kSession = kContainer.newKieSession("ksession-rules-dsi");
-		
-		// SERES
-		
+				
+		// Seres
 		// Mortales
 		Semidios sd = new Semidios("Perseo");
 		Humano h1 = new Humano("Casiopea");
 		Humano h2 = new Humano("Danae");
 		Humano h3 = new Humano("Cefeo");
 		Humano h4 = new Humano("Andromeda");
-		Criatura c1 = new Criatura("Ceto");
-		
+		Criatura c1 = new Criatura("Ceto");		
 		// Inmortales	
-		// Deidades Mayores
 		DeidadMayor d1 = new DeidadMayor("Zeus");
 		DeidadMayor d2 = new DeidadMayor("Poseidon");
 		DeidadMayor d3 = new DeidadMayor("Hades");
 		DeidadMayor d4 = new DeidadMayor("Hermes");
 		DeidadMayor d5 = new DeidadMayor("Hefesto");
 		DeidadMayor d6 = new DeidadMayor("Atenea");
-		// Deidades Menores
 		DeidadMenor d7 = new DeidadMenor("Las Grayas");
 		Ninfa n1 = new Ninfa("Doris");
-		Ninfa n2 = new Ninfa("Nereidas");
-		Ninfa n3 = new Ninfa("Ninfas");
+		Ninfa n2 = new Ninfa("Ninfas");
 		Gorgona g1 = new Gorgona("Medusa");
 		
-		// OBJETOS
-		
+		// Objetos
 		// Especiales
-		Objeto o1 = new ObjetoEspecial("Cabeza de Medusa");
-		Objeto o2 = new ObjetoEspecial("Sandalias Aladas");
-		Objeto o3 = new ObjetoEspecial("Casco de Hades");
-		Objeto o4 = new ObjetoEspecial("Escudo Espejo");
-		Objeto o5 = new ObjetoEspecial("Pegaso");
+		ObjetoEspecial o1 = new ObjetoEspecial("Cabeza de Medusa");
+		o1.setTiene_propiedad(Propiedad.PETRIFICAR);
+		ObjetoEspecial o2 = new ObjetoEspecial("Sandalias Aladas");
+		o2.setTiene_propiedad(Propiedad.VUELO);
+		ObjetoEspecial o3 = new ObjetoEspecial("Casco de Hades");
+		o3.setTiene_propiedad(Propiedad.INVISIBILIDAD);
+		ObjetoEspecial o4 = new ObjetoEspecial("Escudo Espejo");
+		o4.setTiene_propiedad(Propiedad.REFLEJO);
+		ObjetoEspecial o5 = new ObjetoEspecial("Pegaso");
+		o5.setTiene_propiedad(Propiedad.VUELO);
 		// Normales
 		Objeto o6 = new ObjetoNormal("Ojo de Graya");
 		Objeto o7 = new ObjetoNormal("Zurron Magico");
@@ -56,6 +58,53 @@ public class Lanzador {
 		Objeto o9 = new ObjetoNormal("Espada Indestructible");
 		Objeto o10 = new ObjetoNormal("Bridas de Oro");
 		
+		// PREMISAS (Cosas que, a no ser que se indique lo contrario en el fichero, se dan por ciertas)
+		d3.addTiene_objeto(o3);
+		d4.addTiene_objeto(o8);
+		d5.addTiene_objeto(o9);
+		d5.addTiene_objeto(o10);
+		d6.addTiene_objeto(o4);
+		d7.addTiene_objeto(o6);
+		g1.addTiene_objeto(o1);
+		n2.addTiene_objeto(o2);
+		n2.addTiene_objeto(o7);
+		
+		// Añadimos a mapas para el lector de fichero
+		HashMap<String, Ser> seres = new HashMap<String, Ser>();
+		HashMap<String, Objeto> objetos = new HashMap<String, Objeto>();
+		seres.put("Perseo", sd);
+		seres.put("Casiopea", h1);
+		seres.put("Danae", h2);
+		seres.put("Cefeo", h3);
+		seres.put("Andromeda", h4);
+		seres.put("Ceto", c1);
+		seres.put("Zeus", d1);
+		seres.put("Poseidon", d2);
+		seres.put("Hades", d3);
+		seres.put("Hermes", d4);
+		seres.put("Hefesto", d5);
+		seres.put("Atenea", d6);
+		seres.put("Las Grayas", d7);
+		seres.put("Doris", n1);
+		seres.put("Ninfas", n2);
+		seres.put("Medusa", g1);
+		objetos.put("Cabeza de Medusa", o1);
+		objetos.put("Sandalias Aladas", o2);
+		objetos.put("Casco de Hades", o3);
+		objetos.put("Escudo Espejo", o4);
+		objetos.put("Pegaso", o5);
+		objetos.put("Ojo de Graya", o6);
+		objetos.put("Zurron Magico", o7);
+		objetos.put("Hoz de Acero", o8);
+		objetos.put("Espada Indestructible", o9);
+		objetos.put("Bridas de Oro", o10);
+		
+		// Llamamos al lector de fichero
+		LectorFichero lf = new LectorFichero(seres, objetos);
+		lf.leerArchivo("entrada.txt"); // no funcional ahora mismo
+		
+		
+		// Añadimos a la base de conocimiento
 		kSession.insert(sd);
 		kSession.insert(h1);
 		kSession.insert(h2);
@@ -71,7 +120,6 @@ public class Lanzador {
 		kSession.insert(c1);
 		kSession.insert(n1);
 		kSession.insert(n2);
-		kSession.insert(n3);
 		kSession.insert(g1);
 		kSession.insert(o1);
 		kSession.insert(o2);
@@ -83,6 +131,7 @@ public class Lanzador {
 		kSession.insert(o8);
 		kSession.insert(o9);
 		kSession.insert(o10);
+		
 		
 		kSession.fireAllRules();
 		
