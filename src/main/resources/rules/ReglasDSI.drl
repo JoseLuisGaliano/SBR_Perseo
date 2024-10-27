@@ -1,0 +1,203 @@
+//created on: Oct 26, 2024
+package rules
+
+//list any import classes here.
+import ser.*;
+import objeto.*;
+
+
+//declare any global variables here
+
+// Reglas generales
+
+// 1.1 - Si existe un mortal x que tiene el favor de un dios y, x obtiene los objetos de y
+rule "Mortal obtiene objetos de los dioses que le favorecen"
+	when
+		$dios : Dios (tiene_objeto != null)
+		$mortal : Mortal (tiene_favor_de contains $dios)
+	then
+		for (Objeto objeto : $dios.getTiene_objeto()) {
+			$mortal.addTiene_objeto(objeto);
+			System.out.println($mortal.getNombre_ser() + " obtiene " + objeto.getNombre_objeto() + " debido a tener el favor de " + $dios.getNombre_ser());
+		}
+		modify($dios) {
+			setTiene_objeto(null);
+		}
+end
+
+// 1.2 - Si existe un ser x que tiene un objeto especial y con propiedad z, se añade la capacidad z al ser x
+rule "Ser obtiene las capacidades de sus objetos especiales"
+	when
+		$propiedad : Propiedad()
+		$objeto : ObjetoEspecial (tiene_propiedad == $propiedad)
+		$ser : Ser (tiene_objeto contains $objeto, capacidades not contains $propiedad)
+	then
+		modify($ser) {
+			addCapacidad($propiedad);
+		}
+		System.out.println($ser.getNombre_ser() + " obtiene Capacidad " + $propiedad + " debido a tener " + $objeto.getNombre_objeto());
+end
+
+// 1.3 - Si un ser x mata a otro ser y, x obtiene los objetos de y
+rule "Ser obtiene los objetos del ser al que mata"
+	when
+		$ser1 : Ser (tiene_objeto != null)
+		$ser2 : Ser (mata_a contains $ser1)
+	then
+		for (Objeto objeto : $ser1.getTiene_objeto()) {
+			$ser2.addTiene_objeto(objeto);
+			System.out.println($ser2.getNombre_ser() + " obtiene " + objeto.getNombre_objeto() + " debido a matar a " + $ser1.getNombre_ser());
+		}
+		modify($ser1) {
+			setTiene_objeto(null);
+		}
+end
+
+// Reglas específicas
+
+// 2.1 - Si existe un humano con nombre Casiopea y tiene el enojo de un dios con nombre Poseidon, la criatura de nombre Ceto es liberada por Poseidon
+rule "Poseidon libera a Ceto"
+	salience 5
+    when 
+        $dios : Dios (nombre_ser == "Poseidon")
+        $humano : Humano (nombre_ser == "Casiopea", tiene_enojo_de contains $dios)
+        $criatura : Criatura(nombre_ser == "Ceto", liberado_por == null)        
+    then   
+    	modify($criatura){
+        	setLiberado_por($dios);
+        }  
+        System.out.println("Ceto queda libre debido a el enojo de Poseidon hacia Casiopea.");
+end
+
+// 2.2 - Si existe una criatura llamada Ceto y esta ha sido liberada por algún ser x, el humano de nombre Andromeda es apresado por Ceto
+rule "Ceto apresa a Andromeda"   
+	salience 1	
+    when    
+        $criatura : Criatura(nombre_ser == "Ceto", liberado_por != null)
+        $humano : Humano(nombre_ser == "Andromeda", apresado_por == null)
+    then   
+    	modify($humano){
+        	setApresado_por($criatura);
+        }
+        System.out.println("Andromeda queda presa debido a estar Ceto libre.");
+end
+
+// 2.3 - Si existe un semidios llamado Perseo que tiene el favor de un Dios llamado Hermes, el favor de un Dios llamado Atenea y la capacidad Invisibilidad, Perseo tiene el favor de el dios llamado Las Grayas
+rule "Perseo obtiene favor Grayas"
+	salience 1	
+	when	
+		$dios1 : Dios (nombre_ser == "Hermes")
+		$dios2 : Dios (nombre_ser == "Atenea")
+		$semidios : Semidios(nombre_ser == "Perseo", tiene_favor_de contains $dios1 && tiene_favor_de contains $dios2, capacidades contains Propiedad.INVISIBILIDAD)
+		$deidadmenor : DeidadMenor(nombre_ser == "Las Grayas", favorece_a not contains $semidios)
+	then		
+		modify($semidios){
+			addTiene_favor_de($deidadmenor);
+		}		
+		modify($deidadmenor){
+			addFavorece_a($semidios);
+		}		
+		System.out.println("Perseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.");
+		System.out.println("Perseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.");
+		System.out.println("Perseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas");
+end
+
+// 2.4 - Si existe un semidios llamado Perseo que tiene el favor de un Dios llamado Las Grayas, Perseo tiene el favor de el Dios llamado Ninfas
+rule "Perseo obtiene favor Ninfas"
+	salience 1
+	when
+		$dios1 : Dios (nombre_ser == "Las Grayas")
+		$dios2 : Dios (nombre_ser == "Ninfas")
+		$semidios : Semidios (nombre_ser == "Perseo", tiene_favor_de contains $dios1 && tiene_favor_de not contains $dios2)
+	then
+		modify($semidios){
+			addTiene_favor_de($dios2);
+		}
+		modify($dios2){
+			addFavorece_a($semidios);
+		}
+		System.out.println("Perseo localiza a las Ninfas debido a tener el favor de las Grayas");
+end
+
+// 2.5 - Si existe un semidios llamado Perseo que tiene las capacidades Vuelo, Invisibilidad y Reflejo, y que tiene el objeto Hoz de Acero o el objeto Espada Indestructible, Perseo mata al Dios llamado Medusa
+rule "Perseo mata a Medusa"
+	salience 1
+	when
+		$objeto1 : Objeto (nombre_objeto == "Hoz de Acero")
+		$objeto2 : Objeto (nombre_objeto == "Espada Indestructible")
+		$semidios : Semidios (nombre_ser == "Perseo", capacidades contains Propiedad.VUELO && capacidades contains Propiedad.INVISIBILIDAD && capacidades contains Propiedad.REFLEJO, tiene_objeto contains $objeto1 || tiene_objeto contains $objeto2)
+		$dios: Dios (nombre_ser == "Medusa", vivo == true)
+	then
+		modify($semidios){
+			addMata_a($dios);
+		}
+		modify($dios){
+			setVivo(false);
+		}
+		System.out.println("Perseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma");
+end
+
+// 2.6 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa y no tiene el objeto Zurrón Mágico, Perseo muere
+rule "Perseo muere si mata a Medusa sin el Zurron Magico"    
+    when
+    	$objeto1 : Objeto(nombre_objeto == "Cabeza de Medusa")
+    	$objeto2 : Objeto(nombre_objeto == "Zurron Magico")
+        $semidios : Semidios(nombre_ser == "Perseo", vivo == true, tiene_objeto contains $objeto1 && tiene_objeto not contains $objeto2) 
+    then
+        modify($semidios) {
+            setVivo(false);
+        }        
+        System.out.println("Perseo muere al coger la cabeza de Medusa sin tener el Zurron Magico");
+end
+
+// 2.7 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa, Perseo mata a la criatura llamada Ceto
+rule "Perseo mata a Ceto"
+	when
+		$objeto : Objeto (nombre_objeto == "Cabeza de Medusa")
+		$semidios : Semidios (nombre_ser == "Perseo", vivo == true, tiene_objeto contains $objeto)
+		$criatura : Criatura (nombre_ser == "Ceto", vivo == true)
+	then
+		modify($semidios) {
+			addMata_a($criatura);
+		}
+		modify($criatura) {
+			setVivo(false);
+		}
+		System.out.println("Perseo mata Ceto debido a tener Cabeza de Medusa.");
+end
+
+// 2.8 - Si existe un semidios llamado Perseo que ha matado a la criatura llamada Ceto, Perseo libera al humano llamado Andromeda
+/*
+rule "Perseo libera a Andromeda"
+	when
+		$criatura : Criatura (nombre_ser == "Ceto", vivo == false)
+		$semidios : Semidios (nombre_ser == "Perseo", vivo == true, mata_a contains $criatura)
+		$humano : Humano (nombre_ser == "Andromeda", apresado_por == $criatura)
+	then
+		modify($humano) {
+			setApresado_por(null);
+			setLiberado_por($semidios);
+		}
+		modify($criatura) {
+			removeApresa_a($humano);
+		}
+		modify($semidios) {
+			addLibera_a($humano);
+		}
+		System.out.println("Perseo libera a Andromeda debido a matar a Ceto.");
+end*/
+// Si tenemos modify($humano) primero, modify($semidios) da fallo ya que hemos alterado $humano. Si tenemos modify($semidios) primero, modify($humano) da fallo por haber alterado $humano. Lo mismo pasa entre Ceto y Andromeda. Incluso separando 2.8 en varias reglas, falla.
+
+// 2.9 - Si existe un semidios llamado Perseo que tiene el objeto llamado Bridas de Oro, Perseo obtiene el objeto llamado Pegaso
+rule "Perseo obtiene a Pegaso"
+	when
+		$objeto1 : Objeto (nombre_objeto == "Bridas de Oro")
+		$objeto2 : Objeto (nombre_objeto == "Pegaso")
+		$semidios : Semidios (nombre_ser == "Perseo", tiene_objeto contains $objeto1)
+	then
+		modify($semidios)
+		{
+			addTiene_objeto($objeto2);
+		}
+		System.out.println("Perseo obtiene a Pegaso debido a tener las Bridas de Oro.");
+end
