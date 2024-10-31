@@ -25,8 +25,7 @@ public class LectorFichero {
 		String lineaFichero;
 		
 		while((lineaFichero = br.readLine()) != null) {
-			lineaFichero = lineaFichero.trim();
-			leerAtributos(lineaFichero.substring(1).trim());
+			leerAtributos(lineaFichero.trim());
 		}
 		
 		br.close();
@@ -112,22 +111,41 @@ public class LectorFichero {
 		Ser personaje = seres.get(palabras[0]);
 		Objeto objeto = objetos.get(palabras[3]);
 		
-		
+		if (personaje.getTiene_objeto().contains(objeto)) {
+			personaje.removeTiene_objeto(objeto);
+		}
 	}
 	
 	private void procesarLineaTieneFavor(String[] palabras) {
+		Mortal mortal = (Mortal) seres.get(palabras[0]);
+		Dios dios = (Dios) seres.get(palabras[5]);
 		
+		mortal.addTiene_favor_de(dios);
+		dios.addFavorece_a(mortal);
 	}
 	
 	private void procesarLineaTieneEnojo(String[] palabras) {
+		Mortal mortal = (Mortal) seres.get(palabras[0]);
+		Dios dios = (Dios) seres.get(palabras[5]);
 		
+		mortal.addTiene_enojo_de(dios);
+		dios.addEnojado_por(mortal);
 	}
 	
 	private void procesarLineaTieneObjeto(String[] palabras) {
+		Ser personaje = seres.get(palabras[0]);
+		Objeto objeto = objetos.get(palabras[2]);
 		
+		if (!personaje.getTiene_objeto().contains(objeto)) {
+			personaje.addTiene_objeto(objeto);
+		}
 	}
 	
 	private void procesarLineaApresa(String[] palabras) {
+		Ser apresador = seres.get(palabras[0]);
+		Ser apresado = seres.get(palabras[2]);
 		
-	}
+		apresador.addApresa_a(apresado);
+		apresado.setApresado_por(apresador);
+	}	
 }

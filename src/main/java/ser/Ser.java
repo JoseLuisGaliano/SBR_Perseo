@@ -121,6 +121,11 @@ public abstract class Ser {
 	{
 		tiene_objeto.add(objeto);
 	}
+	
+	public void removeTiene_objeto(Objeto objeto)
+	{
+		tiene_objeto.remove(objeto);
+	}
 
 	public List<Ser> getHijo_de() {
 		return hijo_de;

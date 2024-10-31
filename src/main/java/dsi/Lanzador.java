@@ -101,7 +101,11 @@ public class Lanzador {
 		
 		// Llamamos al lector de fichero
 		LectorFichero lf = new LectorFichero(seres, objetos);
-		lf.leerArchivo("entrada.txt"); // no funcional ahora mismo
+		try {
+			lf.leerArchivo("entrada.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} // no funcional ahora mismo
 		
 		
 		// Añadimos a la base de conocimiento
@@ -131,7 +135,6 @@ public class Lanzador {
 		kSession.insert(o8);
 		kSession.insert(o9);
 		kSession.insert(o10);
-		
 		
 		kSession.fireAllRules();
 		
