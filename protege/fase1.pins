@@ -1,0 +1,265 @@
+; Sat Oct 26 14:03:08 CEST 2024
+; 
+;+ (version "3.4.8")
+;+ (build "Build 629")
+
+([DIOS] of  %3ASTANDARD-CLASS
+
+	(%3ASLOT-CONSTRAINTS
+		[fase1_Class10000]
+		[fase1_Class10003]))
+
+([fase1_Class0] of  %3APAL-CONSTRAINT
+
+	(%3APAL-DESCRIPTION "Un ser no puede estar vivo y muerto a la vez")
+	(%3APAL-NAME "vivo_y_muerto_a_la_vez")
+	(%3APAL-STATEMENT "(forall ?ser\n        (=> (own-slot-not-null vivo ?ser)\n            (and (=\"true\" (coerce-to-string (vivo ?ser)))\n                 (not (=\"false\" (coerce-to-string (vivo ?ser))))))\n)"))
+
+([fase1_Class1] of  %3APAL-CONSTRAINT
+
+	(%3APAL-DESCRIPTION "Un ser no puede ser liberado por sí mismo")
+	(%3APAL-NAME "liberado_por_si_mismo")
+	(%3APAL-STATEMENT "(forall ?ser\n        (=> (own-slot-not-null liberado_por ?ser)\n            (not (liberado_por ?ser ?ser)))\n)"))
+
+([fase1_Class10000] of  %3APAL-CONSTRAINT
+
+	(%3APAL-NAME "dios_hijo_de_dios")
+	(%3APAL-STATEMENT "(forall ?dios\n        (=> (own-slot-not-null hijo_de ?dios)\n            (instance-of (hijo_de ?dios) dios)))"))
+
+([fase1_Class10001] of  %3APAL-CONSTRAINT
+
+	(%3APAL-NAME "humano_hijo_de_humano")
+	(%3APAL-STATEMENT "(forall ?humano\n        (=> (own-slot-not-null hijo_de ?humano)\n            (instance-of (hijo_de ?humano) humano)))"))
+
+([fase1_Class10002] of  %3APAL-CONSTRAINT
+
+	(%3APAL-NAME "semidos_hijo_de_humano_y_dios")
+	(%3APAL-STATEMENT "(forall ?semidios\n        (=> (instance of ?semidios semidios)\n            (own-slot-not-null hijo_de ?semidios)\n            (own-slot-not-null hijo_de ?semidios)\n            (instance-of (hijo_de ?semidios) dios)\n            (instance-of (hijo_de ?semidios) humano)\n        )\n)\n"))
+
+([fase1_Class10003] of  %3APAL-CONSTRAINT
+
+	(%3APAL-NAME "dios_siempre_vivo")
+	(%3APAL-STATEMENT "(forall ?dios\n        (=> (instance-of ?dios dios)\n            (= (vivo ?dios) true))\n)"))
+
+([fase1_Class2] of  %3APAL-CONSTRAINT
+
+	(%3APAL-DESCRIPTION "Un ser no puede ser apresado por sí mismo")
+	(%3APAL-NAME "apresado_por_sí_mismo")
+	(%3APAL-STATEMENT "(forall ?ser\n         (=> (own-slot-not-null liberado_por ?ser)\n             (not (apresado_por ?ser ?ser)))\n )"))
+
+([fase1_Class20000] of  Petrificar
+)
+
+([fase1_Class20001] of  Invisibilidad
+)
+
+([fase1_Class20002] of  Reflejo
+)
+
+([fase1_Class20003] of  Vuelo
+)
+
+([fase1_Class20004] of  Vuelo
+)
+
+([fase1_Class20006] of  Humano
+
+	(apresado_por [fase1_Class39])
+	(hijo_de
+		[fase1_Class33]
+		[fase1_Class35])
+	(nombre_ser "Andromeda")
+	(vivo TRUE))
+
+([fase1_Class3] of  %3APAL-CONSTRAINT
+
+	(%3APAL-DESCRIPTION "Un Ser no puede tener el favor y el enojo de un Dios a la vez"))
+
+([fase1_Class33] of  Humano
+
+	(nombre_ser "Casiopea")
+	(tiene_enojo_de
+		[fase1_Class41]
+		[fase1_Class50])
+	(tiene_hijo [fase1_Class20006])
+	(vivo TRUE))
+
+([fase1_Class34] of  Humano
+
+	(nombre_ser "Danae")
+	(tiene_hijo [fase1_Class36])
+	(vivo TRUE))
+
+([fase1_Class35] of  Humano
+
+	(nombre_ser "Cefeo")
+	(tiene_hijo [fase1_Class20006])
+	(vivo TRUE))
+
+([fase1_Class36] of  Semidios
+
+	(hijo_de
+		[fase1_Class34]
+		[fase1_Class40])
+	(nombre_ser "Perseo")
+	(tiene_favor_de
+		[fase1_Class45]
+		[fase1_Class42]
+		[fase1_Class44]
+		[fase1_Class43]
+		[fase1_Class46])
+	(vivo TRUE))
+
+([fase1_Class39] of  Criatura
+
+	(apresa_a [fase1_Class20006])
+	(liberado_por [fase1_Class41])
+	(nombre_ser "Ceto")
+	(vivo TRUE))
+
+([fase1_Class4] of  %3APAL-CONSTRAINT
+
+	(%3APAL-DESCRIPTION "Un Mortal no puede tener el favor y el enojo de un mismo Dios a la vez")
+	(%3APAL-NAME "tener_favor_y_enojo_a_la_vez")
+	(%3APAL-STATEMENT "(forall ?ser\n        (forall ?dios\n                (=> (and(own-slot-not-null tiene_favor_de ?dios)\n                               (own-slot-not-null tiene_enojo_de ?dios))\n                    (and (tiene_favor_de ?ser ?dios) (tiene_enojo_de ?ser ?dios))))\n)"))
+
+([fase1_Class40] of  Deidad+Mayor
+
+	(nombre_ser "Zeus")
+	(tiene_hijo [fase1_Class36])
+	(vivo TRUE))
+
+([fase1_Class41] of  Deidad+Mayor
+
+	(enojado_por [fase1_Class33])
+	(libera_a [fase1_Class39])
+	(nombre_ser "Poseidon")
+	(vivo TRUE))
+
+([fase1_Class42] of  Deidad+Mayor
+
+	(favorece_a [fase1_Class36])
+	(nombre_ser "Hades")
+	(tiene_objeto [fase1_Class56])
+	(vivo TRUE))
+
+([fase1_Class43] of  Deidad+Mayor
+
+	(favorece_a [fase1_Class36])
+	(nombre_ser "Hermes")
+	(tiene_objeto [fase1_Class61])
+	(vivo TRUE))
+
+([fase1_Class44] of  Deidad+Mayor
+
+	(favorece_a [fase1_Class36])
+	(nombre_ser "Hefesto")
+	(tiene_objeto
+		[fase1_Class63]
+		[fase1_Class62])
+	(vivo TRUE))
+
+([fase1_Class45] of  Deidad+Mayor
+
+	(favorece_a [fase1_Class36])
+	(nombre_ser "Atenea")
+	(tiene_objeto [fase1_Class57])
+	(vivo TRUE))
+
+([fase1_Class46] of  Deidad+Menor
+
+	(favorece_a [fase1_Class36])
+	(nombre_ser "Grayas")
+	(tiene_objeto [fase1_Class59])
+	(vivo TRUE))
+
+([fase1_Class49] of  Gorgona
+
+	(nombre_ser "Medusa")
+	(tiene_objeto [fase1_Class54])
+	(vivo TRUE))
+
+([fase1_Class5] of  %3APAL-CONSTRAINT
+
+	(%3APAL-DESCRIPTION "Un Ser puede matar a otro Ser y este está vivo")
+	(%3APAL-NAME "matar_a_ser_vivo")
+	(%3APAL-STATEMENT "(forall ?ser\n        (forall ?ser2\n                (=> (and (own-slot-not-null vivo ?ser)\n                         (own-slot-not-null mata_a ?ser)\n                         (own-slot-not-null vivo ?ser2))\n                    (and (=\"false\" (coerce-to-string (vivo ?ser)))\n                         (mata_a ?ser2 ?ser)))\n        )\n)"))
+
+([fase1_Class50] of  Ninfa
+
+	(enojado_por [fase1_Class33])
+	(nombre_ser "Doris")
+	(vivo TRUE))
+
+([fase1_Class51] of  Ninfa
+
+	(nombre_ser "Nereidas")
+	(tiene_objeto
+		[fase1_Class60]
+		[fase1_Class55])
+	(vivo TRUE))
+
+([fase1_Class54] of  Especial
+
+	(nombre_objeto "Cabeza de Medusa")
+	(tiene_propiedad [fase1_Class20000]))
+
+([fase1_Class55] of  Especial
+
+	(nombre_objeto "Sandalias Aladas")
+	(tiene_propiedad [fase1_Class20004]))
+
+([fase1_Class56] of  Especial
+
+	(nombre_objeto "Casco de Hades")
+	(tiene_propiedad [fase1_Class20001]))
+
+([fase1_Class57] of  Especial
+
+	(nombre_objeto "Escudo Espejo")
+	(tiene_propiedad [fase1_Class20002]))
+
+([fase1_Class58] of  Especial
+
+	(nombre_objeto "Pegaso")
+	(tiene_propiedad [fase1_Class20003]))
+
+([fase1_Class59] of  Normal
+
+	(nombre_objeto "Ojo de Graya"))
+
+([fase1_Class60] of  Normal
+
+	(nombre_objeto "Zurron Magico"))
+
+([fase1_Class61] of  Normal
+
+	(nombre_objeto "Hoz de Acero"))
+
+([fase1_Class62] of  Normal
+
+	(nombre_objeto "Espada Indestructible"))
+
+([fase1_Class63] of  Normal
+
+	(nombre_objeto "Bridas de Oro"))
+
+([Humano] of  %3ASTANDARD-CLASS
+
+	(%3ASLOT-CONSTRAINTS [fase1_Class10001]))
+
+([MORTAL] of  %3ASTANDARD-CLASS
+
+	(%3ASLOT-CONSTRAINTS [fase1_Class4]))
+
+([Semidios] of  %3ASTANDARD-CLASS
+
+	(%3ASLOT-CONSTRAINTS [fase1_Class10002]))
+
+([SER] of  %3ASTANDARD-CLASS
+
+	(%3ASLOT-CONSTRAINTS
+		[fase1_Class0]
+		[fase1_Class1]
+		[fase1_Class2]
+		[fase1_Class5]))

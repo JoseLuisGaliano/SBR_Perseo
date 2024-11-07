@@ -1,0 +1,245 @@
+; Sat Oct 26 14:03:08 CEST 2024
+; 
+;+ (version "3.4.8")
+;+ (build "Build 629")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(multislot tiene_favor_de
+		(type INSTANCE)
+;+		(allowed-classes DIOS)
+;+		(inverse-slot favorece_a)
+		(create-accessor read-write))
+	(single-slot nombre_objeto
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot capacidad
+		(type INSTANCE)
+;+		(allowed-classes PROPIEDAD)
+		(create-accessor read-write))
+	(multislot enojado_por
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
+;+		(inverse-slot tiene_enojo_de)
+		(create-accessor read-write))
+	(multislot mata_a
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
+		(create-accessor read-write))
+	(multislot favorece_a
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
+;+		(inverse-slot tiene_favor_de)
+		(create-accessor read-write))
+	(multislot libera_a
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(inverse-slot liberado_por)
+		(create-accessor read-write))
+	(multislot tiene_enojo_de
+		(type INSTANCE)
+;+		(allowed-classes DIOS)
+;+		(inverse-slot enojado_por)
+		(create-accessor read-write))
+	(multislot apresa_a
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(inverse-slot apresado_por)
+		(create-accessor read-write))
+	(single-slot tiene_propiedad
+		(type INSTANCE)
+;+		(allowed-classes PROPIEDAD)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot hijo_de
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(inverse-slot tiene_hijo)
+		(create-accessor read-write))
+	(single-slot liberado_por
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
+;+		(inverse-slot libera_a)
+		(create-accessor read-write))
+	(single-slot fase1_Class25
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot apresado_por
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
+;+		(inverse-slot apresa_a)
+		(create-accessor read-write))
+	(single-slot nombre_ser
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot vivo
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+		(default TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot fase1_Class24
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot tiene_hijo
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(inverse-slot hijo_de)
+		(create-accessor read-write))
+	(multislot tiene_objeto
+		(type INSTANCE)
+;+		(allowed-classes OBJETOS)
+		(create-accessor read-write)))
+
+(defclass SER
+	(is-a USER)
+	(role abstract)
+	(single-slot apresado_por
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot libera_a
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
+	(single-slot vivo
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+		(default TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nombre_ser
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot tiene_hijo
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
+	(multislot tiene_objeto
+		(type INSTANCE)
+;+		(allowed-classes OBJETOS)
+		(create-accessor read-write))
+	(multislot hijo_de
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
+	(multislot apresa_a
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
+	(multislot mata_a
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
+		(create-accessor read-write))
+	(single-slot liberado_por
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot capacidad
+		(type INSTANCE)
+;+		(allowed-classes PROPIEDAD)
+		(create-accessor read-write)))
+
+(defclass MORTAL
+	(is-a SER)
+	(role abstract)
+	(multislot tiene_enojo_de
+		(type INSTANCE)
+;+		(allowed-classes DIOS)
+		(create-accessor read-write))
+	(multislot tiene_favor_de
+		(type INSTANCE)
+;+		(allowed-classes DIOS)
+		(create-accessor read-write)))
+
+(defclass Humano
+	(is-a MORTAL)
+	(role concrete))
+
+(defclass Semidios
+	(is-a MORTAL)
+	(role concrete))
+
+(defclass Criatura
+	(is-a MORTAL)
+	(role concrete))
+
+(defclass DIOS
+	(is-a SER)
+	(role abstract)
+	(multislot enojado_por
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
+		(create-accessor read-write))
+	(multislot favorece_a
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
+		(create-accessor read-write)))
+
+(defclass Deidad+Mayor
+	(is-a DIOS)
+	(role concrete))
+
+(defclass Deidad+Menor
+	(is-a DIOS)
+	(role concrete))
+
+(defclass Ninfa
+	(is-a Deidad+Menor)
+	(role concrete))
+
+(defclass Gorgona
+	(is-a Deidad+Menor)
+	(role concrete))
+
+(defclass OBJETOS
+	(is-a USER)
+	(role abstract)
+	(single-slot nombre_objeto
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Especial
+	(is-a OBJETOS)
+	(role concrete)
+	(single-slot tiene_propiedad
+		(type INSTANCE)
+;+		(allowed-classes PROPIEDAD)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Normal
+	(is-a OBJETOS)
+	(role concrete))
+
+(defclass PROPIEDAD
+	(is-a USER)
+	(role abstract))
+
+(defclass Vuelo
+	(is-a PROPIEDAD)
+	(role concrete))
+
+(defclass Reflejo
+	(is-a PROPIEDAD)
+	(role concrete))
+
+(defclass Invisibilidad
+	(is-a PROPIEDAD)
+	(role concrete))
+
+(defclass Petrificar
+	(is-a PROPIEDAD)
+	(role concrete))
