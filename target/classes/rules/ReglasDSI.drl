@@ -4,9 +4,21 @@ package rules
 //list any import classes here.
 import ser.*;
 import objeto.*;
-
+import relaciones.*;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 
 //declare any global variables here
+
+// Queries
+
+query getInventario(Ser ser)
+	$posee : Posee (poseedor == ser)
+end
+
+query getCapacidades(Ser ser)
+	$capacidades : Capacidades (poseedor == ser)
+end
 
 // Reglas generales
 
@@ -14,29 +26,38 @@ import objeto.*;
 rule "Mortal obtiene objetos de los dioses que le favorecen"
 	salience 13
 	when
-		$dios : Dios (tiene_objeto != null)
-		$mortal : Mortal (tiene_favor_de contains $dios)
+		$dios : Dios()
+		$mortal : Mortal()
+		Favor (favorecedor == $dios, favorecido == $mortal)
 	then
-		for (Objeto objeto : $dios.getTiene_objeto()) {
-			$mortal.addTiene_objeto(objeto);
-			System.out.println($mortal.getNombre_ser() + " obtiene " + objeto.getNombre_objeto() + " debido a tener el favor de " + $dios.getNombre_ser());
+		// Le damos los objetos al mortal
+		QueryResults results = kcontext.getKieRuntime().getQueryResults("getInventario", $dios);
+		for (QueryResultsRow row : results) {
+			Posee p = (Posee) row.get("$posee");
+			p.setPoseedor($mortal);
+			update(p);			
+			System.out.println($mortal.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a tener el favor de " + $dios.getNombre_ser());
 		}
-		modify($dios) {
-			setTiene_objeto(null);
-		}
-		update($mortal);
+		// Le quitamos las capacidades a los dioses
+		results = kcontext.getKieRuntime().getQueryResults("getCapacidades", $dios);
+		for (QueryResultsRow row : results) {
+			Capacidades c = (Capacidades) row.get("$capacidades");
+			System.out.println($dios.getNombre_ser() + " pierde la capacidad " + c.getCapacidad());
+			retract(c);
+		}	
 end
 
 // 1.2 - Si existe un ser x que tiene un objeto especial y con propiedad z, se añade la capacidad z al ser x
 rule "Ser obtiene las capacidades de sus objetos especiales"
-	salience 12
+	salience 14
 	when
 		$objeto : ObjetoEspecial($propiedad : tiene_propiedad)
-		$ser : Ser (tiene_objeto contains $objeto, capacidades not contains $propiedad)
-	then
-		modify($ser) {
-			addCapacidad($propiedad);
-		}
+		$ser : Ser()
+		Posee (poseedor == $ser, objeto == $objeto)
+		not Capacidades (poseedor == $ser, capacidad == $propiedad)
+	then	
+		Capacidades c = new Capacidades($ser, $propiedad);
+		insert(c);
 		System.out.println($ser.getNombre_ser() + " obtiene Capacidad " + $objeto.getTiene_propiedad() + " debido a tener " + $objeto.getNombre_objeto());
 end
 
@@ -44,16 +65,35 @@ end
 rule "Ser obtiene los objetos del ser al que mata"
 	salience 8
 	when
-		$ser1 : Ser (tiene_objeto != null)
-		$ser2 : Ser (mata_a contains $ser1)
+		$matado : Ser()
+		$matador : Ser()
+		Mata (matador == $matador, matado == $matado)
+		Posee (poseedor == $matado) // Para evitar que se lance la regla constantemente
 	then
-		for (Objeto objeto : $ser1.getTiene_objeto()) {
-			$ser2.addTiene_objeto(objeto);
-			System.out.println($ser2.getNombre_ser() + " obtiene " + objeto.getNombre_objeto() + " debido a matar a " + $ser1.getNombre_ser());
+		// Le damos los objetos al matador
+		QueryResults results = kcontext.getKieRuntime().getQueryResults("getInventario", $matado);
+		for (QueryResultsRow row : results) {
+			Posee p = (Posee) row.get("$posee");
+			p.setPoseedor($matador);
+			update(p);			
+			System.out.println($matador.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a matar a " + $matado.getNombre_ser());
 		}
-		modify($ser1) {
-			setTiene_objeto(null);
-		}
+end
+
+// 1.4 - Si un ser x mata a otro ser y, y este ser y había apresado a otro ser z, x libera a z
+rule "Ser libera al apresado de a quien haya matado"
+	salience 5
+	when
+		$apresador : Ser()
+		$matador : Ser()
+		$apresado : Ser()
+		Mata (matador == $matador, matado == $apresador)
+		$apresa : Apresa (apresador == $apresador, apresado == $apresado)
+	then
+		retract($apresa);
+		Libera l = new Libera($matador, $apresado);
+		insert(l);
+		System.out.println($matador.getNombre_ser() + " libera a " + $apresado.getNombre_ser() + " debido a matar a " + $apresador.getNombre_ser());
 end
 
 // Reglas específicas
@@ -63,26 +103,29 @@ rule "Poseidon libera a Ceto"
     salience 15
     when 
         $dios : Dios (nombre_ser == "Poseidon")
-        $humano : Humano (nombre_ser == "Casiopea", tiene_enojo_de contains $dios)
-        $criatura : Criatura(nombre_ser == "Ceto", liberado_por == null)        
+        $humano : Humano (nombre_ser == "Casiopea")
+        $criatura : Criatura(nombre_ser == "Ceto")
+        Enojo (enojador == $humano, enojado == $dios)
+        not Libera (liberado == $criatura)
     then   
-    	modify($criatura){
-        	setLiberado_por($dios);
-        }  
-        System.out.println("Ceto queda libre debido a el enojo de Poseidon hacia Casiopea.");
+        Libera l = new Libera($dios, $criatura);
+        insert(l);       	
+        System.out.println($criatura.getNombre_ser() + " queda libre debido a el enojo de " + $dios.getNombre_ser() + " hacia " + $humano.getNombre_ser());
 end
 
 // 2.2 - Si existe una criatura llamada Ceto y esta ha sido liberada por algún ser x, el humano de nombre Andromeda es apresado por Ceto
 rule "Ceto apresa a Andromeda"   
     salience 14
     when    
-        $criatura : Criatura(nombre_ser == "Ceto", liberado_por != null)
-        $humano : Humano(nombre_ser == "Andromeda", apresado_por == null, liberado_por == null)
+        $criatura : Criatura(nombre_ser == "Ceto")
+        $humano : Humano(nombre_ser == "Andromeda")
+        Libera (liberado == $criatura)
+        not Apresa (apresado == $humano)
+        not Libera (liberado == $humano)
     then   
-    	modify($humano){
-        	setApresado_por($criatura);
-        }
-        System.out.println("Andromeda queda presa debido a estar Ceto libre.");
+    	Apresa a = new Apresa($criatura, $humano);
+   		insert(a);
+        System.out.println($humano.getNombre_ser() + " queda presa debido a estar " + $criatura.getNombre_ser() + " libre");
 end
 
 // 2.3 - Si existe un semidios llamado Perseo que tiene el favor de un Dios llamado Hermes, el favor de un Dios llamado Atenea y la capacidad Invisibilidad, Perseo tiene el favor de el dios llamado Las Grayas
@@ -91,15 +134,15 @@ rule "Perseo obtiene favor Grayas"
 	when	
 		$dios1 : Dios (nombre_ser == "Hermes")
 		$dios2 : Dios (nombre_ser == "Atenea")
-		$semidios : Semidios(nombre_ser == "Perseo", tiene_favor_de contains $dios1 && tiene_favor_de contains $dios2, capacidades contains Propiedad.INVISIBILIDAD)
-		$deidadmenor : DeidadMenor(nombre_ser == "Las Grayas", favorece_a not contains $semidios)
+		$semidios : Semidios(nombre_ser == "Perseo")
+		$deidadmenor : DeidadMenor(nombre_ser == "Las Grayas")
+		Favor (favorecedor == $dios1, favorecido == $semidios)
+		Favor (favorecedor == $dios2, favorecido == $semidios)
+		Capacidades (poseedor == $semidios, capacidad == Propiedad.INVISIBILIDAD)
+		not Favor (favorecedor == $deidadmenor, favorecido == $semidios)
 	then		
-		modify($semidios){
-			addTiene_favor_de($deidadmenor);
-		}		
-		modify($deidadmenor){
-			addFavorece_a($semidios);
-		}		
+		Favor f = new Favor($deidadmenor, $semidios);
+		insert(f);	
 		System.out.println("Perseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.");
 		System.out.println("Perseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.");
 		System.out.println("Perseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas");
@@ -110,15 +153,13 @@ rule "Perseo obtiene favor Ninfas"
 	salience 10
 	when
 		$dios1 : Dios (nombre_ser == "Las Grayas")
-		$dios2 : Dios (nombre_ser == "Ninfas")
-		$semidios : Semidios (nombre_ser == "Perseo", tiene_favor_de contains $dios1 && tiene_favor_de not contains $dios2)
+		$dios2 : Dios (nombre_ser == "Las Ninfas")
+		$semidios : Semidios (nombre_ser == "Perseo")
+		Favor (favorecedor == $dios1, favorecido == $semidios)
+		not Favor (favorecedor == $dios2, favorecido == $semidios)
 	then
-		modify($semidios){
-			addTiene_favor_de($dios2);
-		}
-		modify($dios2){
-			addFavorece_a($semidios);
-		}
+		Favor f = new Favor($dios2, $semidios);
+		insert(f);
 		System.out.println("Perseo localiza a las Ninfas debido a tener el favor de las Grayas");
 end
 
@@ -128,12 +169,15 @@ rule "Perseo mata a Medusa"
 	when
 		$objeto1 : Objeto (nombre_objeto == "Hoz de Acero")
 		$objeto2 : Objeto (nombre_objeto == "Espada Indestructible")
-		$semidios : Semidios (nombre_ser == "Perseo", capacidades contains Propiedad.VUELO && capacidades contains Propiedad.INVISIBILIDAD && capacidades contains Propiedad.REFLEJO, tiene_objeto contains $objeto1 || tiene_objeto contains $objeto2)
+		$semidios : Semidios (nombre_ser == "Perseo")
 		$dios: Dios (nombre_ser == "Medusa", vivo == true)
+		Capacidades (poseedor == $semidios, capacidad == Propiedad.VUELO)
+		Capacidades (poseedor == $semidios, capacidad == Propiedad.INVISIBILIDAD)
+		Capacidades (poseedor == $semidios, capacidad == Propiedad.REFLEJO)
+		( Posee (poseedor == $semidios, objeto == $objeto1) or Posee (poseedor == $semidios, objeto == $objeto2) )
 	then
-		modify($semidios){
-			addMata_a($dios);
-		}
+		Mata m = new Mata($semidios, $dios);
+		insert(m);
 		modify($dios){
 			setVivo(false);
 		}
@@ -146,7 +190,9 @@ rule "Perseo muere si mata a Medusa sin el Zurron Magico"
     when
     	$objeto1 : Objeto(nombre_objeto == "Cabeza de Medusa")
     	$objeto2 : Objeto(nombre_objeto == "Zurron Magico")
-        $semidios : Semidios(nombre_ser == "Perseo", vivo == true, tiene_objeto contains $objeto1 && tiene_objeto not contains $objeto2) 
+        $semidios : Semidios(nombre_ser == "Perseo", vivo == true) 
+        Posee (poseedor == $semidios, objeto == $objeto1)
+        not Posee (poseedor == $semidios, objeto == $objeto2)
     then
         modify($semidios) {
             setVivo(false);
@@ -154,54 +200,36 @@ rule "Perseo muere si mata a Medusa sin el Zurron Magico"
         System.out.println("Perseo muere al coger la cabeza de Medusa sin tener el Zurron Magico");
 end
 
-// 2.7 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa, Perseo mata a la criatura llamada Ceto
+// 2.7 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa y existe una criatura llamada Ceto que haya apresado a un humano llamado Andromeda, Perseo mata a Ceto
 rule "Perseo mata a Ceto"
 	salience 6
 	when
 		$objeto : Objeto (nombre_objeto == "Cabeza de Medusa")
-		$semidios : Semidios (nombre_ser == "Perseo", vivo == true, tiene_objeto contains $objeto)
+		$semidios : Semidios (nombre_ser == "Perseo", vivo == true)
 		$criatura : Criatura (nombre_ser == "Ceto", vivo == true)
+		$humano : Humano (nombre_ser == "Andromeda");
+		Posee (poseedor == $semidios, objeto == $objeto)
+		Apresa (apresador == $criatura, apresado == $humano)
 	then
-		modify($semidios) {
-			addMata_a($criatura);
-		}
+		Mata m = new Mata($semidios, $criatura);
+		insert(m);
 		modify($criatura) {
 			setVivo(false);
 		}
 		System.out.println("Perseo mata Ceto debido a tener Cabeza de Medusa.");
 end
 
-// 2.8 - Si existe un semidios llamado Perseo que ha matado a la criatura llamada Ceto, Perseo libera al humano llamado Andromeda
-rule "Perseo libera a Andromeda"
-	salience 5
-	when
-		$criatura : Criatura (nombre_ser == "Ceto", vivo == false)
-		$semidios : Semidios (nombre_ser == "Perseo", vivo == true, mata_a contains $criatura)
-		$humano : Humano (nombre_ser == "Andromeda", apresado_por == $criatura)
-	then
-		$humano.setApresado_por(null);
-		$humano.setLiberado_por($semidios);
-		update($humano);
-		modify($criatura) {
-			removeApresa_a($humano);
-		}
-		modify($semidios) {
-			addLibera_a($humano);
-		}
-		System.out.println("Perseo libera a Andromeda debido a matar a Ceto.");
-end
-
-// 2.9 - Si existe un semidios llamado Perseo que tiene el objeto llamado Bridas de Oro, Perseo obtiene el objeto llamado Pegaso
+// 2.8 - Si existe un semidios llamado Perseo que tiene el objeto llamado Bridas de Oro, Perseo obtiene el objeto llamado Pegaso
 rule "Perseo obtiene a Pegaso"
 	salience 12
 	when
 		$objeto1 : Objeto (nombre_objeto == "Bridas de Oro")
 		$objeto2 : Objeto (nombre_objeto == "Pegaso")
-		$semidios : Semidios (nombre_ser == "Perseo", tiene_objeto contains $objeto1 && tiene_objeto not contains $objeto2)
+		$semidios : Semidios (nombre_ser == "Perseo")
+		Posee (poseedor == $semidios, objeto == $objeto1)
+		not Posee (poseedor == $semidios, objeto == $objeto2)
 	then
-		modify($semidios)
-		{
-			addTiene_objeto($objeto2);
-		}
+		Posee p = new Posee($semidios, $objeto2);
+		insert(p);
 		System.out.println("Perseo obtiene a Pegaso debido a tener las Bridas de Oro.");
 end

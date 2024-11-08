@@ -5,19 +5,30 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
+
+import org.kie.api.runtime.rule.FactHandle;
+import org.kie.api.runtime.KieSession;
+
+import java.util.List;
 
 import objeto.*;
 import ser.*;
+import relaciones.*;
 
 public class LectorFichero {
 	
 	private Map<String, Ser> seres;
 	private Map<String, Objeto> objetos;
+	private List<Posee> posesiones;
+	private KieSession ksession;
 	
-	public LectorFichero(Map<String, Ser> seres, Map<String, Objeto> objetos) {
+	public LectorFichero(Map<String, Ser> seres, Map<String, Objeto> objetos, List<Posee> posesiones, KieSession ksession) {
 		this.seres = seres;
 		this.objetos = objetos;
+		this.posesiones = posesiones;
+		this.ksession = ksession;
 	}
 	
 	public void leerArchivo(String fichero) throws IOException{
@@ -54,6 +65,19 @@ public class LectorFichero {
 	private void leerAtributos(String cadena) {
 	    String[] palabras = cadena.split(" ");
 	    
+	    // Caso especial: el personaje coge palabras[0] y también palabras[1]
+	    if (palabras[0].equals("Las")) {
+	        String[] nuevoPalabras = new String[palabras.length - 1];
+	    	// Juntamos las dos primeras palabras como si fuesen una
+	        palabras[0] = palabras[0] + " " + palabras[1];
+	        nuevoPalabras[0] = palabras[0];
+	        // Desplazamos el resto de palabras
+	        for(int i = 2; i < palabras.length; i++) {
+	        	nuevoPalabras[i-1] = palabras[i];
+	        }
+	        palabras = nuevoPalabras;
+	    }
+	    
 	    // palabras[0] = personaje
 	    if(palabras[1].equals("no")) {
 	    	// palabras[2] = tiene
@@ -73,7 +97,7 @@ public class LectorFichero {
 	    		}
 	    	}
 	    	else {
-	    		// palabras[3] = objeto
+	    		// palabras[3] - palabras[n] = objeto
 	    		// FIN DE FRASE
 	    		procesarLineaNoTieneObjeto(palabras);
 	    	}
@@ -95,7 +119,7 @@ public class LectorFichero {
 	    		}
 	    	}
 	    	else {
-	    		// palabras[2] = objeto
+	    		// palabras[2] - palabras[n] = objeto
 	    		// FIN DE FRASE
 	    		procesarLineaTieneObjeto(palabras);
 	    	}
@@ -109,43 +133,61 @@ public class LectorFichero {
 	
 	private void procesarLineaNoTieneObjeto(String[] palabras) {
 		Ser personaje = seres.get(palabras[0]);
-		Objeto objeto = objetos.get(palabras[3]);
+		Objeto objeto = objetos.get(obtenerNombreObjeto(palabras, 3));
 		
-		if (personaje.getTiene_objeto().contains(objeto)) {
-			personaje.removeTiene_objeto(objeto);
-		}
+		Posee borrar = null;
+		for(Posee p : posesiones) {
+			if(p.getPoseedor().equals(personaje) && p.getObjeto().equals(objeto)) {
+				borrar = p; 
+				break;
+			}
+		}		
+		posesiones.remove(borrar);
+		
+		FactHandle f = ksession.getFactHandle(borrar);
+		if(f != null) ksession.delete(f);
 	}
 	
 	private void procesarLineaTieneFavor(String[] palabras) {
 		Mortal mortal = (Mortal) seres.get(palabras[0]);
 		Dios dios = (Dios) seres.get(palabras[5]);
 		
-		mortal.addTiene_favor_de(dios);
-		dios.addFavorece_a(mortal);
+		Favor f = new Favor(dios, mortal);
+		ksession.insert(f);
 	}
 	
 	private void procesarLineaTieneEnojo(String[] palabras) {
 		Mortal mortal = (Mortal) seres.get(palabras[0]);
 		Dios dios = (Dios) seres.get(palabras[5]);
 		
-		mortal.addTiene_enojo_de(dios);
-		dios.addEnojado_por(mortal);
+		Enojo e = new Enojo(mortal, dios);
+		ksession.insert(e);
 	}
 	
 	private void procesarLineaTieneObjeto(String[] palabras) {
 		Ser personaje = seres.get(palabras[0]);
-		Objeto objeto = objetos.get(palabras[2]);
+		Objeto objeto = objetos.get(obtenerNombreObjeto(palabras, 2));
 		
-		if (!personaje.getTiene_objeto().contains(objeto)) {
-			personaje.addTiene_objeto(objeto);
-		}
+		Posee p = new Posee(personaje, objeto);
+		ksession.insert(p);
 	}
 	
 	private void procesarLineaApresa(String[] palabras) {
 		Ser apresador = seres.get(palabras[0]);
 		Ser apresado = seres.get(palabras[2]);
 		
-		apresador.addApresa_a(apresado);
-		apresado.setApresado_por(apresador);
+		Apresa a = new Apresa(apresador, apresado);
+		ksession.insert(a);
 	}	
+	
+	private String obtenerNombreObjeto(String[] palabras, int inicio) {
+		StringBuilder objetoBuilder = new StringBuilder();
+        for (int i = inicio; i < palabras.length; i++) {
+            if (i > inicio) {
+                objetoBuilder.append(" ");
+            }
+            objetoBuilder.append(palabras[i]);
+        }
+        return objetoBuilder.toString();
+	}
 }

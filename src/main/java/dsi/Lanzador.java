@@ -2,6 +2,7 @@ package dsi;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
@@ -9,16 +10,16 @@ import org.kie.api.runtime.KieSession;
 
 import objeto.*;
 import ser.*;
+import relaciones.*;
 
 public class Lanzador {
-	
 	public static void main(String[] args) {
 
 		KieServices ks = KieServices.Factory.get();
 		KieContainer kContainer = ks.getKieClasspathContainer();
 		
 		KieSession kSession = kContainer.newKieSession("ksession-rules-dsi");
-				
+		
 		// Seres
 		// Mortales
 		Semidios sd = new Semidios("Perseo");
@@ -36,7 +37,7 @@ public class Lanzador {
 		DeidadMayor d6 = new DeidadMayor("Atenea");
 		DeidadMenor d7 = new DeidadMenor("Las Grayas");
 		Ninfa n1 = new Ninfa("Doris");
-		Ninfa n2 = new Ninfa("Ninfas");
+		Ninfa n2 = new Ninfa("Las Ninfas");
 		Gorgona g1 = new Gorgona("Medusa");
 		
 		// Objetos
@@ -47,27 +48,33 @@ public class Lanzador {
 		o2.setTiene_propiedad(Propiedad.VUELO);
 		ObjetoEspecial o3 = new ObjetoEspecial("Casco de Hades");
 		o3.setTiene_propiedad(Propiedad.INVISIBILIDAD);
-		ObjetoEspecial o4 = new ObjetoEspecial("Escudo Espejo");
+		ObjetoEspecial o4 = new ObjetoEspecial("Escudo de Bronce");
 		o4.setTiene_propiedad(Propiedad.REFLEJO);
 		ObjetoEspecial o5 = new ObjetoEspecial("Pegaso");
 		o5.setTiene_propiedad(Propiedad.VUELO);
+		ObjetoEspecial o11 = new ObjetoEspecial("Anillo de Invisibilidad");
+		o11.setTiene_propiedad(Propiedad.INVISIBILIDAD);
+		ObjetoEspecial o12 = new ObjetoEspecial("Conjuro de Vuelo");
+		o12.setTiene_propiedad(Propiedad.VUELO);
+		ObjetoEspecial o13 = new ObjetoEspecial("Espejo de Mano");
+		o13.setTiene_propiedad(Propiedad.REFLEJO);
 		// Normales
-		Objeto o6 = new ObjetoNormal("Ojo de Graya");
+		// Objeto o6 = new ObjetoNormal("Ojo de Graya");
 		Objeto o7 = new ObjetoNormal("Zurron Magico");
 		Objeto o8 = new ObjetoNormal("Hoz de Acero");
 		Objeto o9 = new ObjetoNormal("Espada Indestructible");
 		Objeto o10 = new ObjetoNormal("Bridas de Oro");
 		
 		// PREMISAS (Cosas que, a no ser que se indique lo contrario en el fichero, se dan por ciertas)
-		d3.addTiene_objeto(o3);
-		d4.addTiene_objeto(o8);
-		d5.addTiene_objeto(o9);
-		d5.addTiene_objeto(o10);
-		d6.addTiene_objeto(o4);
-		d7.addTiene_objeto(o6);
-		g1.addTiene_objeto(o1);
-		n2.addTiene_objeto(o2);
-		n2.addTiene_objeto(o7);
+		Posee p1 = new Posee(d3, o3);
+		Posee p2 = new Posee(d4, o8);
+		Posee p3 = new Posee(d5, o9);
+		Posee p4 = new Posee(d5, o10);
+		Posee p5 = new Posee(d6, o4);
+		// Posee p6 = new Posee(d7, o6);
+		Posee p7 = new Posee(g1, o1);
+		Posee p8 = new Posee(n2, o2);
+		Posee p9 = new Posee(n2, o7);
 		
 		// Añadimos a mapas para el lector de fichero
 		HashMap<String, Ser> seres = new HashMap<String, Ser>();
@@ -86,27 +93,33 @@ public class Lanzador {
 		seres.put("Atenea", d6);
 		seres.put("Las Grayas", d7);
 		seres.put("Doris", n1);
-		seres.put("Ninfas", n2);
+		seres.put("Las Ninfas", n2);
 		seres.put("Medusa", g1);
 		objetos.put("Cabeza de Medusa", o1);
 		objetos.put("Sandalias Aladas", o2);
 		objetos.put("Casco de Hades", o3);
-		objetos.put("Escudo Espejo", o4);
+		objetos.put("Escudo de Bronce", o4);
 		objetos.put("Pegaso", o5);
-		objetos.put("Ojo de Graya", o6);
+		// objetos.put("Ojo de Graya", o6);
 		objetos.put("Zurron Magico", o7);
 		objetos.put("Hoz de Acero", o8);
 		objetos.put("Espada Indestructible", o9);
 		objetos.put("Bridas de Oro", o10);
+		objetos.put("Anillo de Invisibilidad", o11);
+		objetos.put("Conjuro de Vuelo", o12);
+		objetos.put("Espejo de Mano", o13);
 		
-		// Llamamos al lector de fichero
-		LectorFichero lf = new LectorFichero(seres, objetos);
-		try {
-			lf.leerArchivo("entrada.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} // no funcional ahora mismo
-		
+		// Añadimos a lista de posesiones para el lector de fichero
+		ArrayList<Posee> posesiones = new ArrayList<Posee>();
+		posesiones.add(p1);
+		posesiones.add(p2);
+		posesiones.add(p3);
+		posesiones.add(p4);
+		posesiones.add(p5);
+		// posesiones.add(p6);
+		posesiones.add(p7);
+		posesiones.add(p8);
+		posesiones.add(p9);
 		
 		// Añadimos a la base de conocimiento
 		kSession.insert(sd);
@@ -130,11 +143,31 @@ public class Lanzador {
 		kSession.insert(o3);
 		kSession.insert(o4);
 		kSession.insert(o5);
-		kSession.insert(o6);
+		// kSession.insert(o6);
 		kSession.insert(o7);
 		kSession.insert(o8);
 		kSession.insert(o9);
 		kSession.insert(o10);
+		kSession.insert(o11);
+		kSession.insert(o12);
+		kSession.insert(o13);
+		kSession.insert(p1);
+		kSession.insert(p2);
+		kSession.insert(p3);
+		kSession.insert(p4);
+		kSession.insert(p5);
+		// kSession.insert(p6);
+		kSession.insert(p7);
+		kSession.insert(p8);
+		kSession.insert(p9);
+		
+		// Llamamos al lector de fichero
+		LectorFichero lf = new LectorFichero(seres, objetos, posesiones, kSession);
+		try {
+			lf.leerArchivo("entrada1.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		kSession.fireAllRules();
 		

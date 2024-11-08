@@ -1,4 +1,4 @@
-; Sat Oct 26 14:03:08 CEST 2024
+; Thu Nov 07 15:50:13 CET 2024
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -20,12 +20,12 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[fase1_ProjectKB_Class20414]
-		[fase1_ProjectKB_Class20415]
-		[fase1_ProjectKB_Class20416]
-		[fase1_ProjectKB_Class20417]
-		[fase1_ProjectKB_Class20418]
-		[fase1_ProjectKB_Class20419]))
+		[fase1_ProjectKB_Class10004]
+		[fase1_ProjectKB_Class10005]
+		[fase1_ProjectKB_Class10006]
+		[fase1_ProjectKB_Class10007]
+		[fase1_ProjectKB_Class10008]
+		[fase1_ProjectKB_Class10009]))
 
 ([CLSES_TAB] of  Widget
 
@@ -45,6 +45,57 @@
 	(integer_value 390)
 	(name "CONSTRAINT_CONTROL_PANEL_TOP_DIVIDER_LOCATION"))
 
+([fase1_ProjectKB_Class10004] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([fase1_ProjectKB_Class10005] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([fase1_ProjectKB_Class10006] of  String
+
+	(name "OBJETO")
+	(string_value "nombre_objeto"))
+
+([fase1_ProjectKB_Class10007] of  String
+
+	(name "SER")
+	(string_value "nombre_ser"))
+
+([fase1_ProjectKB_Class10008] of  String
+
+	(name "Especial")
+	(string_value "nombre_objeto"))
+
+([fase1_ProjectKB_Class10009] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([fase1_ProjectKB_Class10010] of  Map_Entry
+
+	(key "suppress_instance_counting")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([fase1_ProjectKB_Class10011] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([fase1_ProjectKB_Class10012] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
 ([fase1_ProjectKB_Class107] of  String
 
 	(name "SearchTab_Query"))
@@ -53,57 +104,6 @@
 
 	(integer_value 390)
 	(name "CONSTRAINT_CONTROL_PANEL_BOTTOM_DIVIDER_LOCATION"))
-
-([fase1_ProjectKB_Class20414] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([fase1_ProjectKB_Class20415] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([fase1_ProjectKB_Class20416] of  String
-
-	(name "SER")
-	(string_value "nombre_ser"))
-
-([fase1_ProjectKB_Class20417] of  String
-
-	(name "Especial")
-	(string_value "nombre_objeto"))
-
-([fase1_ProjectKB_Class20418] of  String
-
-	(name "OBJETOS")
-	(string_value "nombre_objeto"))
-
-([fase1_ProjectKB_Class20419] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([fase1_ProjectKB_Class20420] of  Map_Entry
-
-	(key "suppress_instance_counting")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([fase1_ProjectKB_Class20421] of  Map_Entry
-
-	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([fase1_ProjectKB_Class20422] of  Map_Entry
-
-	(key "add_name_on_instance_form")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
 
 ([fase1_ProjectKB_Class4] of  Property_List
 
@@ -163,9 +163,9 @@
 ([KB_245943_Class1] of  Map
 
 	(entries
-		[fase1_ProjectKB_Class20420]
-		[fase1_ProjectKB_Class20421]
-		[fase1_ProjectKB_Class20422]))
+		[fase1_ProjectKB_Class10010]
+		[fase1_ProjectKB_Class10011]
+		[fase1_ProjectKB_Class10012]))
 
 ([KB_245943_Class10] of  Property_List
 )
@@ -623,7 +623,7 @@
 ([KB_245943_Class99] of  Property_List
 )
 
-([KB_825128_Class3] of  Map
+([KB_788953_Class3] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
@@ -714,11 +714,11 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
-		[PAL_FORM_WIDGET]
-		[INSTANCE_ANNOTATION_FORM_WIDGET])
+		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")

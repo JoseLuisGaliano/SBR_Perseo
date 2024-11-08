@@ -1,4 +1,4 @@
-; Sat Oct 26 14:03:08 CEST 2024
+; Thu Nov 07 15:50:13 CET 2024
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -19,6 +19,11 @@
 	(multislot capacidad
 		(type INSTANCE)
 ;+		(allowed-classes PROPIEDAD)
+		(create-accessor read-write))
+	(single-slot ser_tiene_capacidad
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot enojado_por
 		(type INSTANCE)
@@ -54,6 +59,11 @@
 ;+		(allowed-classes PROPIEDAD)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot ser_tiene_propiedad
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(multislot hijo_de
 		(type INSTANCE)
 ;+		(allowed-classes SER)
@@ -67,6 +77,11 @@
 		(create-accessor read-write))
 	(single-slot fase1_Class25
 		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot objeto_da_propiedad
+		(type INSTANCE)
+;+		(allowed-classes OBJETO)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot apresado_por
@@ -89,14 +104,19 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot objeto_da_capacidad
+		(type INSTANCE)
+;+		(allowed-classes OBJETO)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot tiene_objeto
+		(type INSTANCE)
+;+		(allowed-classes OBJETO)
+		(create-accessor read-write))
 	(multislot tiene_hijo
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(inverse-slot hijo_de)
-		(create-accessor read-write))
-	(multislot tiene_objeto
-		(type INSTANCE)
-;+		(allowed-classes OBJETOS)
 		(create-accessor read-write)))
 
 (defclass SER
@@ -107,29 +127,25 @@
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot libera_a
-		(type INSTANCE)
-;+		(allowed-classes SER)
-		(create-accessor read-write))
 	(single-slot vivo
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 		(default TRUE)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(multislot libera_a
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
 	(single-slot nombre_ser
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot tiene_hijo
-		(type INSTANCE)
-;+		(allowed-classes SER)
-		(create-accessor read-write))
 	(multislot tiene_objeto
 		(type INSTANCE)
-;+		(allowed-classes OBJETOS)
+;+		(allowed-classes OBJETO)
 		(create-accessor read-write))
-	(multislot hijo_de
+	(multislot tiene_hijo
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 		(create-accessor read-write))
@@ -137,14 +153,18 @@
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 		(create-accessor read-write))
-	(multislot mata_a
+	(multislot hijo_de
 		(type INSTANCE)
-;+		(allowed-classes MORTAL)
+;+		(allowed-classes SER)
 		(create-accessor read-write))
 	(single-slot liberado_por
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot mata_a
+		(type INSTANCE)
+;+		(allowed-classes MORTAL)
 		(create-accessor read-write))
 	(multislot capacidad
 		(type INSTANCE)
@@ -203,7 +223,7 @@
 	(is-a Deidad+Menor)
 	(role concrete))
 
-(defclass OBJETOS
+(defclass OBJETO
 	(is-a USER)
 	(role abstract)
 	(single-slot nombre_objeto
@@ -212,7 +232,7 @@
 		(create-accessor read-write)))
 
 (defclass Especial
-	(is-a OBJETOS)
+	(is-a OBJETO)
 	(role concrete)
 	(single-slot tiene_propiedad
 		(type INSTANCE)
@@ -221,12 +241,22 @@
 		(create-accessor read-write)))
 
 (defclass Normal
-	(is-a OBJETOS)
+	(is-a OBJETO)
 	(role concrete))
 
 (defclass PROPIEDAD
 	(is-a USER)
-	(role abstract))
+	(role abstract)
+	(single-slot objeto_da_propiedad
+		(type INSTANCE)
+;+		(allowed-classes OBJETO)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot ser_tiene_propiedad
+		(type INSTANCE)
+;+		(allowed-classes SER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
 
 (defclass Vuelo
 	(is-a PROPIEDAD)
