@@ -169,6 +169,9 @@ public class Lanzador {
 			e.printStackTrace();
 		}
 		
+		// Criterio de parada (provisional, tiene que venir del lector de fichero)
+		kSession.setGlobal("condicionParada", CondicionParada.CAPACIDAD_VUELO);
+		
 		kSession.fireAllRules();
 		
 		System.out.println("OK");

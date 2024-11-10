@@ -5,10 +5,12 @@ package rules
 import ser.*;
 import objeto.*;
 import relaciones.*;
+import dsi.CondicionParada;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 
 //declare any global variables here
+global CondicionParada condicionParada;
 
 // Queries
 
@@ -59,6 +61,14 @@ rule "Ser obtiene las capacidades de sus objetos especiales"
 		Capacidades c = new Capacidades($ser, $propiedad);
 		insert(c);
 		System.out.println($ser.getNombre_ser() + " obtiene Capacidad " + $objeto.getTiene_propiedad() + " debido a tener " + $objeto.getNombre_objeto());
+		
+		// Parada?
+		if(condicionParada == CondicionParada.CAPACIDAD_VUELO) {
+			if($propiedad == Propiedad.VUELO && $ser.getNombre_ser().equals("Perseo")) {
+				System.out.println("TENEMOS VUELO");
+				kcontext.getKieRuntime().halt();
+			}
+		}
 end
 
 // 1.3 - Si un ser x mata a otro ser y, x obtiene los objetos de y
@@ -77,6 +87,14 @@ rule "Ser obtiene los objetos del ser al que mata"
 			p.setPoseedor($matador);
 			update(p);			
 			System.out.println($matador.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a matar a " + $matado.getNombre_ser());
+			
+			// Parada?
+			if(condicionParada == CondicionParada.CABEZA_MEDUSA) {
+				if(p.getObjeto().getNombre_objeto().equals("Cabeza de Medusa") && $matador.getNombre_ser().equals("Perseo")) {
+					System.out.println("CABEZA MEDUSA");
+					kcontext.getKieRuntime().halt();
+				}
+			}
 		}
 end
 
@@ -94,6 +112,14 @@ rule "Ser libera al apresado de a quien haya matado"
 		Libera l = new Libera($matador, $apresado);
 		insert(l);
 		System.out.println($matador.getNombre_ser() + " libera a " + $apresado.getNombre_ser() + " debido a matar a " + $apresador.getNombre_ser());
+		
+		// Parada?
+		if(condicionParada == CondicionParada.ANDROMEDA_LIBRE) {
+			if($apresado.getNombre_ser().equals("Andromeda")) {
+				System.out.println("ANDROMEDA LIBRE");
+				kcontext.getKieRuntime().halt();
+			}
+		}
 end
 
 // Reglas específicas
@@ -182,6 +208,8 @@ rule "Perseo mata a Medusa"
 			setVivo(false);
 		}
 		System.out.println("Perseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma");
+		
+		
 end
 
 // 2.6 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa y no tiene el objeto Zurrón Mágico, Perseo muere
