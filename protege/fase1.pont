@@ -1,4 +1,4 @@
-; Thu Nov 07 15:50:13 CET 2024
+; Mon Nov 11 18:52:22 CET 2024
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -8,15 +8,18 @@
 	(is-a USER)
 	(role abstract)
 	(multislot tiene_favor_de
+;+		(comment "Relación que nos permite saber de que DIOSES tiene favor un MORTAL.")
 		(type INSTANCE)
 ;+		(allowed-classes DIOS)
 ;+		(inverse-slot favorece_a)
 		(create-accessor read-write))
 	(single-slot nombre_objeto
+;+		(comment "Nombre del objeto.")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot capacidad
+;+		(comment "Propiedades que tiene un SER")
 		(type INSTANCE)
 ;+		(allowed-classes PROPIEDAD)
 		(create-accessor read-write))
@@ -26,50 +29,60 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot enojado_por
+;+		(comment "Relación que permite modelar el enojo de un DIOS con un MORTAL.")
 		(type INSTANCE)
 ;+		(allowed-classes MORTAL)
 ;+		(inverse-slot tiene_enojo_de)
 		(create-accessor read-write))
 	(multislot mata_a
+;+		(comment "Relación entre un SER que mata a otro SER.")
 		(type INSTANCE)
 ;+		(allowed-classes MORTAL)
 		(create-accessor read-write))
 	(multislot favorece_a
+;+		(comment "Relación que permite modelar el favor de un DIOS a un MORTAL")
 		(type INSTANCE)
 ;+		(allowed-classes MORTAL)
 ;+		(inverse-slot tiene_favor_de)
 		(create-accessor read-write))
 	(multislot libera_a
+;+		(comment "Relación entre el SER que libera a otro SER.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(inverse-slot liberado_por)
 		(create-accessor read-write))
 	(multislot tiene_enojo_de
+;+		(comment "Relación entre un MORTAL y el DIOS que está enojado con él.")
 		(type INSTANCE)
 ;+		(allowed-classes DIOS)
 ;+		(inverse-slot enojado_por)
 		(create-accessor read-write))
 	(multislot apresa_a
+;+		(comment "Slot asociado al SER que apresa a otro SER")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(inverse-slot apresado_por)
 		(create-accessor read-write))
 	(single-slot tiene_propiedad
+;+		(comment "Este sklot permite modelar los objetos que proporcionen una propiedad añadida.")
 		(type INSTANCE)
 ;+		(allowed-classes PROPIEDAD)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot ser_tiene_propiedad
+;+		(comment "Relaciona un ser con su propiedad.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot hijo_de
+;+		(comment "Relación entre un ser y su padre.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(inverse-slot tiene_hijo)
 		(create-accessor read-write))
 	(single-slot liberado_por
+;+		(comment "Relación entre el SER que ha sido liberado y quien lo libera.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
@@ -80,21 +93,25 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot objeto_da_propiedad
+;+		(comment "Relaciona un objeto con su propiedad.")
 		(type INSTANCE)
 ;+		(allowed-classes OBJETO)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot apresado_por
+;+		(comment "Slot que define la relación entre un SER y su secuestrador.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
 ;+		(inverse-slot apresa_a)
 		(create-accessor read-write))
 	(single-slot nombre_ser
+;+		(comment "Nombre del SER.")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot vivo
+;+		(comment "Estado de vida de un SER")
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 		(default TRUE)
@@ -110,166 +127,187 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot tiene_objeto
+;+		(comment "Relación entre un SER y los objetos que posee.")
 		(type INSTANCE)
 ;+		(allowed-classes OBJETO)
 		(create-accessor read-write))
 	(multislot tiene_hijo
+;+		(comment "Relación entre el SER y su hijo.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(inverse-slot hijo_de)
 		(create-accessor read-write)))
 
-(defclass SER
+(defclass SER "Esta clase define los seres que forman parte de la ontología-"
 	(is-a USER)
 	(role abstract)
 	(single-slot apresado_por
+;+		(comment "Slot que define la relación entre un SER y su secuestrador.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(multislot libera_a
+;+		(comment "Relación entre el SER que libera a otro SER.")
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
 	(single-slot vivo
+;+		(comment "Estado de vida de un SER")
 		(type SYMBOL)
 		(allowed-values FALSE TRUE)
 		(default TRUE)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot libera_a
-		(type INSTANCE)
-;+		(allowed-classes SER)
-		(create-accessor read-write))
 	(single-slot nombre_ser
+;+		(comment "Nombre del SER.")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(multislot tiene_hijo
+;+		(comment "Relación entre el SER y su hijo.")
+		(type INSTANCE)
+;+		(allowed-classes SER)
+		(create-accessor read-write))
 	(multislot tiene_objeto
+;+		(comment "Relación entre un SER y los objetos que posee.")
 		(type INSTANCE)
 ;+		(allowed-classes OBJETO)
 		(create-accessor read-write))
-	(multislot tiene_hijo
+	(multislot hijo_de
+;+		(comment "Relación entre un ser y su padre.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 		(create-accessor read-write))
 	(multislot apresa_a
+;+		(comment "Slot asociado al SER que apresa a otro SER")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 		(create-accessor read-write))
-	(multislot hijo_de
+	(multislot mata_a
+;+		(comment "Relación entre un SER que mata a otro SER.")
 		(type INSTANCE)
-;+		(allowed-classes SER)
+;+		(allowed-classes MORTAL)
 		(create-accessor read-write))
 	(single-slot liberado_por
+;+		(comment "Relación entre el SER que ha sido liberado y quien lo libera.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot mata_a
-		(type INSTANCE)
-;+		(allowed-classes MORTAL)
-		(create-accessor read-write))
 	(multislot capacidad
+;+		(comment "Propiedades que tiene un SER")
 		(type INSTANCE)
 ;+		(allowed-classes PROPIEDAD)
 		(create-accessor read-write)))
 
-(defclass MORTAL
+(defclass MORTAL "Clase que nos permite modelar un tipo de ser que puede morir."
 	(is-a SER)
 	(role abstract)
 	(multislot tiene_enojo_de
+;+		(comment "Relación entre un MORTAL y el DIOS que está enojado con él.")
 		(type INSTANCE)
 ;+		(allowed-classes DIOS)
 		(create-accessor read-write))
 	(multislot tiene_favor_de
+;+		(comment "Relación que nos permite saber de que DIOSES tiene favor un MORTAL.")
 		(type INSTANCE)
 ;+		(allowed-classes DIOS)
 		(create-accessor read-write)))
 
-(defclass Humano
+(defclass Humano "Permite modelar la existencia de los humanos en la mitología griega."
 	(is-a MORTAL)
 	(role concrete))
 
-(defclass Semidios
+(defclass Semidios "Son mitad humanos, mitad dioses. Hijos de un dios y un mortal."
 	(is-a MORTAL)
 	(role concrete))
 
-(defclass Criatura
+(defclass Criatura "Nos permite modelar a mortales que no son ni humanos, ni semidiioses."
 	(is-a MORTAL)
 	(role concrete))
 
-(defclass DIOS
+(defclass DIOS "La clase Dios nos permite modelar un tipo de ser que tiene la característica de ser inmortal."
 	(is-a SER)
 	(role abstract)
 	(multislot enojado_por
+;+		(comment "Relación que permite modelar el enojo de un DIOS con un MORTAL.")
 		(type INSTANCE)
 ;+		(allowed-classes MORTAL)
 		(create-accessor read-write))
 	(multislot favorece_a
+;+		(comment "Relación que permite modelar el favor de un DIOS a un MORTAL")
 		(type INSTANCE)
 ;+		(allowed-classes MORTAL)
 		(create-accessor read-write)))
 
-(defclass Deidad+Mayor
+(defclass Deidad+Mayor "Tipo de distinción en la mitología griega entre dioses más importantes."
 	(is-a DIOS)
 	(role concrete))
 
-(defclass Deidad+Menor
+(defclass Deidad+Menor "Tipo de distinción en la mitología griega entre dioses más importantes."
 	(is-a DIOS)
 	(role concrete))
 
-(defclass Ninfa
+(defclass Ninfa "Permite modelar a las ninfas que existen en la mitología griega."
 	(is-a Deidad+Menor)
 	(role concrete))
 
-(defclass Gorgona
+(defclass Gorgona "En la mitología griega, una gorgona era un despiadado monstruo femenino a la vez que una deidad protectora procedente de los conceptos religiosos más antiguos."
 	(is-a Deidad+Menor)
 	(role concrete))
 
-(defclass OBJETO
+(defclass OBJETO "Objetos que pueden estar en posesión de un SER."
 	(is-a USER)
 	(role abstract)
 	(single-slot nombre_objeto
+;+		(comment "Nombre del objeto.")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass Especial
+(defclass Especial "Subclase de objetos los cuales tienen una propiedad asociada la cual se le atribuye al SER que los posee."
 	(is-a OBJETO)
 	(role concrete)
 	(single-slot tiene_propiedad
+;+		(comment "Este sklot permite modelar los objetos que proporcionen una propiedad añadida.")
 		(type INSTANCE)
 ;+		(allowed-classes PROPIEDAD)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
-(defclass Normal
+(defclass Normal "Objetos sin ningún tipo de propiedad añadida"
 	(is-a OBJETO)
 	(role concrete))
 
-(defclass PROPIEDAD
+(defclass PROPIEDAD "Superclase de las propiedades que puede obtener un objeto o un ser."
 	(is-a USER)
 	(role abstract)
 	(single-slot objeto_da_propiedad
+;+		(comment "Relaciona un objeto con su propiedad.")
 		(type INSTANCE)
 ;+		(allowed-classes OBJETO)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot ser_tiene_propiedad
+;+		(comment "Relaciona un ser con su propiedad.")
 		(type INSTANCE)
 ;+		(allowed-classes SER)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
-(defclass Vuelo
+(defclass Vuelo "Contiene las instancias de seres y objetos que contienen la propiedad Reflejo.."
 	(is-a PROPIEDAD)
 	(role concrete))
 
-(defclass Reflejo
+(defclass Reflejo "Contiene las instancias de seres y objetos que contienen la propiedad Reflejo."
 	(is-a PROPIEDAD)
 	(role concrete))
 
-(defclass Invisibilidad
+(defclass Invisibilidad "Contiene las instancias de seres y objetos que contienen la propiedad invisibilidad."
 	(is-a PROPIEDAD)
 	(role concrete))
 
-(defclass Petrificar
+(defclass Petrificar "Contiene las instancias de seres y objetos que contienen la propiedad petrificar."
 	(is-a PROPIEDAD)
 	(role concrete))
