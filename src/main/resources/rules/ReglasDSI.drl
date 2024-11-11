@@ -6,6 +6,7 @@ import ser.*;
 import objeto.*;
 import relaciones.*;
 import dsi.CondicionParada;
+import dsi.TiposParada;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 
@@ -63,9 +64,9 @@ rule "Ser obtiene las capacidades de sus objetos especiales"
 		System.out.println($ser.getNombre_ser() + " obtiene Capacidad " + $objeto.getTiene_propiedad() + " debido a tener " + $objeto.getNombre_objeto());
 		
 		// Parada?
-		if(condicionParada == CondicionParada.PERSEO_TIENE_CAPACIDAD_VUELO) {
-			if($propiedad == Propiedad.VUELO && $ser.getNombre_ser().equals("Perseo")) {
-				System.out.println("TENEMOS VUELO");
+		if(condicionParada.getTipo() == TiposParada.OBTENER_CAPACIDAD) {
+			if($ser.getNombre_ser().equals(condicionParada.getPersonaje()) && $propiedad.toString().equals(condicionParada.getObjetivo())) {
+				System.out.println("TENEMOS CAPACIDAD");
 				kcontext.getKieRuntime().halt();
 			}
 		}
@@ -89,9 +90,9 @@ rule "Ser obtiene los objetos del ser al que mata"
 			System.out.println($matador.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a matar a " + $matado.getNombre_ser());
 			
 			// Parada?
-			if(condicionParada == CondicionParada.PERSEO_TIENE_CABEZA_MEDUSA) {
-				if(p.getObjeto().getNombre_objeto().equals("Cabeza de Medusa") && $matador.getNombre_ser().equals("Perseo")) {
-					System.out.println("CABEZA MEDUSA");
+			if(condicionParada.getTipo() == TiposParada.OBTENER_OBJETO) {
+				if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
+					System.out.println("TENEMOS OBJETO");
 					kcontext.getKieRuntime().halt();
 				}
 			}
@@ -114,9 +115,9 @@ rule "Ser libera al apresado de a quien haya matado"
 		System.out.println($matador.getNombre_ser() + " libera a " + $apresado.getNombre_ser() + " debido a matar a " + $apresador.getNombre_ser());
 		
 		// Parada?
-		if(condicionParada == CondicionParada.PERSEO_LIBERA_ANDROMEDA) {
-			if($apresado.getNombre_ser().equals("Andromeda")) {
-				System.out.println("ANDROMEDA LIBRE");
+		if(condicionParada.getTipo() == TiposParada.LIBERAR_PERSONAJE) {
+			if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && $apresado.getNombre_ser().equals(condicionParada.getObjetivo())) {
+				System.out.println("PERSONAJE LIBERADO");
 				kcontext.getKieRuntime().halt();
 			}
 		}

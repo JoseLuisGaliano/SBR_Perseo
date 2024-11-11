@@ -164,7 +164,7 @@ public class Lanzador {
 		// Llamamos al lector de fichero
 		LectorFichero lf = new LectorFichero(seres, objetos, posesiones, kSession);
 		try {
-			lf.leerArchivo("entrada5.txt");
+			lf.leerArchivo("pruebas.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
