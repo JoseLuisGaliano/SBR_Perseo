@@ -35,34 +35,97 @@ public class LectorFichero {
 		BufferedReader br = new BufferedReader(new FileReader(fichero));
 		String lineaFichero;
 		
+		// Parseamos la condición de parada
+		lineaFichero = br.readLine(); // Primera línea: Condición de parada
+		leerCondicionParada(lineaFichero.trim());
+		lineaFichero = br.readLine(); // Segunda línea: "Condiciones:", la pasamos ya que no se parsea
+				
+		// Parseamos las condiciones adicionales
 		while((lineaFichero = br.readLine()) != null) {
-			leerAtributos(lineaFichero.trim());
+			leerCondiciones(lineaFichero.trim());
 		}
 		
 		br.close();
 	}
 	
-	// Para leer la entrada se asume que cada línea sigue la siguiente estructura de árbol:
+	// Para extraer la condición de parada, se asume que la estructura de la primera línea sigue este árbol:
+	/* 
+	 * "¿Puede"
+	 * personaje
+	 * -> "liberar a"
+	 *    personaje [fin de la frase]
+	 * -> "tener"
+	 *    -> "Capacidad"
+	 *       propiedad [fin de la frase]
+	 *    -> objeto [fin de la frase]
+	 *   
+	 * IMPORTANTE: La frase siempre acaba con ?, carácter que hay que eliminar
+	 */
+	private void leerCondicionParada(String cadena) {
+		String[] palabras = cadena.split(" ");
+		
+		// palabras[0] = ¿Puede
+		
+		// Caso especial: el personaje coge palabras[1] y también palabras[2]
+	    if (palabras[1].equals("Las")) {
+	        String[] nuevoPalabras = new String[palabras.length - 1];
+	        nuevoPalabras[0] = palabras[0];
+	    	// Juntamos las dos primeras palabras como si fuesen una
+	        palabras[1] = palabras[1] + " " + palabras[2];
+	        nuevoPalabras[1] = palabras[1];
+	        // Desplazamos el resto de palabras
+	        for(int i = 3; i < palabras.length; i++) {
+	        	nuevoPalabras[i-1] = palabras[i];
+	        }
+	        palabras = nuevoPalabras;
+	    }
+	    
+	    // palabras[1] = personaje
+	    if(palabras[2].equals("liberar")) {
+	    	// palabras[3] = a
+	    	// palabras[4] = personaje
+	    	if(palabras[4].equals("Las")) palabras[4] = palabras[4] + " " + palabras[5];
+	    	// FIN DE FRASE
+	    	procesarLineaObjetivoLiberar(palabras);
+	    }
+	    else {
+	    	// palabras[2] = tener
+	    	if(palabras[3].equals("Capacidad")) {
+	    		// palabras[4] = propiedad
+	    		// FIN DE FRASE
+	    		procesarLineaObjetivoTenerCapacidad(palabras);
+	    	}
+	    	else {
+	    		// palabras[3] - palabras[n] = objeto
+	    		// FIN DE FRASE
+	    		procesarLineaObjetivoTenerObjeto(palabras);
+	    	}
+	    }
+	    
+	}
+	
+	
+	// Una vez pasadas las dos primeras líneas, se asume que cada línea sigue la siguiente estructura de árbol:
 	/*
-	 personaje
-	 -> "no"
-        "tiene"
-        -> objeto [fin de la frase]
-        -> "el favor de"
-           personaje [fin de la frase]
-        -> "el enojo de"
-           personaje [fin de la frase]
-     -> "tiene"
-        -> objeto [fin de la frase]
-        -> "el favor de"
-           personaje [fin de la frase]
-        -> "el enojo de"
-           personaje [fin de la frase]
-     -> "apresa"
-         personaje [fin de la frase]
+	 * personaje
+	 * -> "no"
+     *    "tiene"
+     *    -> objeto [fin de la frase]
+     *    -> "el favor de"
+     *       personaje [fin de la frase]
+     *    -> "el enojo de"
+     *       personaje [fin de la frase]
+     * -> "tiene"
+     *    -> objeto [fin de la frase]
+     *    -> "el favor de"
+     *       personaje [fin de la frase]
+     *    -> "el enojo de"
+     *       personaje [fin de la frase]
+     * -> "apresa"
+     *     personaje [fin de la frase]
 	 */
 	
-	private void leerAtributos(String cadena) {
+	private void leerCondiciones(String cadena) {
 	    String[] palabras = cadena.split(" ");
 	    
 	    // Caso especial: el personaje coge palabras[0] y también palabras[1]
@@ -107,6 +170,7 @@ public class LectorFichero {
 	    		if(palabras[3].equals("favor")) {
 	    			// palabras[4] = de
 	    			// palabras[5] = personaje
+	    			if(palabras[5].equals("Las")) palabras[5] = palabras[5] + " " + palabras[6];
 	    			// FIN DE FRASE
 	    			procesarLineaTieneFavor(palabras);
 	    		}
@@ -114,6 +178,7 @@ public class LectorFichero {
 	    			// palabras[3] = enojo
 	    			// palabras[4] = de
 	    			// palabras[5] = personaje
+	    			if(palabras[5].equals("Las")) palabras[5] = palabras[5] + " " + palabras[6];
 	    			// FIN DE FRASE
 	    			procesarLineaTieneEnojo(palabras);
 	    		}
@@ -131,6 +196,41 @@ public class LectorFichero {
 	    }    	
 	}
 	
+	
+	// LINEAS DE CONDICION DE PARADA
+	
+	private void procesarLineaObjetivoLiberar(String[] palabras) {
+		Ser personaje_liberador = seres.get(palabras[1]);
+		Ser personaje_liberado = seres.get(quitarInterrogacion(palabras[4]));
+		
+		if(personaje_liberador.getNombre_ser().equals("Perseo") && personaje_liberado.getNombre_ser().equals("Andromeda"))
+			ksession.setGlobal("condicionParada", CondicionParada.PERSEO_LIBERA_ANDROMEDA);
+		
+		// Añadir ifs según se añadan condiciones de parada...
+	}
+	
+	private void procesarLineaObjetivoTenerCapacidad(String[] palabras) {
+		Ser personaje = seres.get(palabras[1]);
+		Propiedad propiedad = Propiedad.valueOf(quitarInterrogacion(palabras[4]).toUpperCase());
+		
+		if(personaje.getNombre_ser().equals("Perseo") && propiedad == Propiedad.VUELO)
+			ksession.setGlobal("condicionParada", CondicionParada.PERSEO_TIENE_CAPACIDAD_VUELO);
+		
+		// Añadir ifs según se añadan condiciones de parada...
+	}
+	
+	private void procesarLineaObjetivoTenerObjeto(String[] palabras) {
+		Ser personaje = seres.get(palabras[1]);
+		Objeto objeto = objetos.get(quitarInterrogacion(obtenerNombreObjeto(palabras, 3)));
+		
+		if(personaje.getNombre_ser().equals("Perseo") && objeto.getNombre_objeto().equals("Cabeza de Medusa"))
+			ksession.setGlobal("condicionParada", CondicionParada.PERSEO_TIENE_CABEZA_MEDUSA);
+		
+		// Añadir ifs según se añadan condiciones de parada...
+	}
+	
+	// LINEAS DE CONDICIONES ADICIONALES 
+
 	private void procesarLineaNoTieneObjeto(String[] palabras) {
 		Ser personaje = seres.get(palabras[0]);
 		Objeto objeto = objetos.get(obtenerNombreObjeto(palabras, 3));
@@ -179,6 +279,12 @@ public class LectorFichero {
 		Apresa a = new Apresa(apresador, apresado);
 		ksession.insert(a);
 	}	
+	
+	// FUNCIONES AUXILIARES
+	
+	private String quitarInterrogacion(String palabra) {
+		return palabra.substring(0, palabra.length() - 1);
+	}
 	
 	private String obtenerNombreObjeto(String[] palabras, int inicio) {
 		StringBuilder objetoBuilder = new StringBuilder();

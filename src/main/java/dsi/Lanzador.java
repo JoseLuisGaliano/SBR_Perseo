@@ -164,13 +164,10 @@ public class Lanzador {
 		// Llamamos al lector de fichero
 		LectorFichero lf = new LectorFichero(seres, objetos, posesiones, kSession);
 		try {
-			lf.leerArchivo("entrada1.txt");
+			lf.leerArchivo("entrada5.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		// Criterio de parada (provisional, tiene que venir del lector de fichero)
-		kSession.setGlobal("condicionParada", CondicionParada.CAPACIDAD_VUELO);
 		
 		kSession.fireAllRules();
 		
