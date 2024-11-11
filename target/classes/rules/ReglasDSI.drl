@@ -63,7 +63,7 @@ rule "Ser obtiene las capacidades de sus objetos especiales"
 		System.out.println($ser.getNombre_ser() + " obtiene Capacidad " + $objeto.getTiene_propiedad() + " debido a tener " + $objeto.getNombre_objeto());
 		
 		// Parada?
-		if(condicionParada == CondicionParada.CAPACIDAD_VUELO) {
+		if(condicionParada == CondicionParada.PERSEO_TIENE_CAPACIDAD_VUELO) {
 			if($propiedad == Propiedad.VUELO && $ser.getNombre_ser().equals("Perseo")) {
 				System.out.println("TENEMOS VUELO");
 				kcontext.getKieRuntime().halt();
@@ -89,7 +89,7 @@ rule "Ser obtiene los objetos del ser al que mata"
 			System.out.println($matador.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a matar a " + $matado.getNombre_ser());
 			
 			// Parada?
-			if(condicionParada == CondicionParada.CABEZA_MEDUSA) {
+			if(condicionParada == CondicionParada.PERSEO_TIENE_CABEZA_MEDUSA) {
 				if(p.getObjeto().getNombre_objeto().equals("Cabeza de Medusa") && $matador.getNombre_ser().equals("Perseo")) {
 					System.out.println("CABEZA MEDUSA");
 					kcontext.getKieRuntime().halt();
@@ -114,7 +114,7 @@ rule "Ser libera al apresado de a quien haya matado"
 		System.out.println($matador.getNombre_ser() + " libera a " + $apresado.getNombre_ser() + " debido a matar a " + $apresador.getNombre_ser());
 		
 		// Parada?
-		if(condicionParada == CondicionParada.ANDROMEDA_LIBRE) {
+		if(condicionParada == CondicionParada.PERSEO_LIBERA_ANDROMEDA) {
 			if($apresado.getNombre_ser().equals("Andromeda")) {
 				System.out.println("ANDROMEDA LIBRE");
 				kcontext.getKieRuntime().halt();
