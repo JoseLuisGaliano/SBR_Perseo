@@ -1,0 +1,17 @@
+Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
+Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
+Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
+Atenea obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
+Teseo recibe el hilo de Ariadna
+Teseo obtiene Cuerno del Minotauro debido a matar a Minotauro
+Teseo ha escapado del laberinto debido a tener el hilo de Ariadna y estar el Minotauro muerto
+Minos se enoja con Dédalo debido al escape de Teseo
+Minos apresa a Dedalo
+Minos apresa a Icaro debido a ser hijo de Dedalo
+Icaro construye las alas de Ícaro debido a que el minotauro está muerto
+Icaro obtiene Capacidad VUELO debido a tener Alas de Icaro
+Dedalo construye las alas de Ícaro debido a que el minotauro está muerto
+Dedalo obtiene Capacidad VUELO debido a tener Alas de Icaro
+Dedalo escapa del laberinto debido a tener la capacidad Vuelo
+Icaro escapa del laberinto debido a tener la capacidad Vuelo
+Ícaro vuela demasiado alto con las alas y se muere

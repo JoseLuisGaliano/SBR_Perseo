@@ -44,14 +44,24 @@ rule "Mortal obtiene objetos de los dioses que le favorecen"
 			p.setPoseedor($mortal);
 			update(p);			
 			System.out.println($mortal.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a tener el favor de " + $dios.getNombre_ser());
+			
+			// Parada?
+			if(condicionParada.getTipo() == TiposParada.OBTENER_OBJETO) {
+				if($mortal.getNombre_ser().equals(condicionParada.getPersonaje()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
+					System.out.println();
+					System.out.println("CONCLUSIÓN: " + $mortal.getNombre_ser() + " sí puede obtener el objeto" + p.getObjeto().getNombre_objeto());
+					kcontext.getKieRuntime().halt();
+				}
+			}
 		}
+		
 		// Le quitamos las capacidades a los dioses
 		results = kcontext.getKieRuntime().getQueryResults("getCapacidades", $dios);
 		for (QueryResultsRow row : results) {
 			Capacidades c = (Capacidades) row.get("$capacidades");
 			System.out.println($dios.getNombre_ser() + " pierde la capacidad " + c.getCapacidad());
 			retract(c);
-		}	
+		}
 end
 
 // 1.2 - Si existe un ser x que tiene un objeto especial y con propiedad z, se añade la capacidad z al ser x
@@ -70,7 +80,8 @@ rule "Ser obtiene las capacidades de sus objetos especiales"
 		// Parada?
 		if(condicionParada.getTipo() == TiposParada.OBTENER_CAPACIDAD) {
 			if($ser.getNombre_ser().equals(condicionParada.getPersonaje()) && $propiedad.toString().equals(condicionParada.getObjetivo())) {
-				System.out.println("TENEMOS CAPACIDAD");
+				System.out.println();
+				System.out.println("CONCLUSIÓN: " + $ser.getNombre_ser() + " sí puede obtener la capacidad " + $objeto.getTiene_propiedad());
 				kcontext.getKieRuntime().halt();
 			}
 		}
@@ -96,7 +107,8 @@ rule "Ser obtiene los objetos del ser al que mata"
 			// Parada?
 			if(condicionParada.getTipo() == TiposParada.OBTENER_OBJETO) {
 				if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
-					System.out.println("TENEMOS OBJETO");
+					System.out.println();
+					System.out.println("CONCLUSIÓN: " + $matador.getNombre_ser() + " sí puede obtener el objeto" + p.getObjeto().getNombre_objeto());
 					kcontext.getKieRuntime().halt();
 				}
 			}
@@ -121,7 +133,8 @@ rule "Ser libera al apresado de a quien haya matado"
 		// Parada?
 		if(condicionParada.getTipo() == TiposParada.LIBERAR_PERSONAJE) {
 			if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && $apresado.getNombre_ser().equals(condicionParada.getObjetivo())) {
-				System.out.println("PERSONAJE LIBERADO");
+				System.out.println();
+				System.out.println("CONCLUSIÓN: " + $matador.getNombre_ser() + " sí puede liberar a " + $apresado.getNombre_ser());
 				kcontext.getKieRuntime().halt();
 			}
 		}
