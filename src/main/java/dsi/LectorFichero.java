@@ -203,30 +203,24 @@ public class LectorFichero {
 		Ser personaje_liberador = seres.get(palabras[1]);
 		Ser personaje_liberado = seres.get(quitarInterrogacion(palabras[4]));
 		
-		if(personaje_liberador.getNombre_ser().equals("Perseo") && personaje_liberado.getNombre_ser().equals("Andromeda"))
-			ksession.setGlobal("condicionParada", CondicionParada.PERSEO_LIBERA_ANDROMEDA);
-		
-		// Añadir ifs según se añadan condiciones de parada...
+		CondicionParada cp = new CondicionParada(TiposParada.LIBERAR_PERSONAJE, personaje_liberador.getNombre_ser(), personaje_liberado.getNombre_ser());
+		ksession.setGlobal("condicionParada", cp);
 	}
 	
 	private void procesarLineaObjetivoTenerCapacidad(String[] palabras) {
 		Ser personaje = seres.get(palabras[1]);
 		Propiedad propiedad = Propiedad.valueOf(quitarInterrogacion(palabras[4]).toUpperCase());
 		
-		if(personaje.getNombre_ser().equals("Perseo") && propiedad == Propiedad.VUELO)
-			ksession.setGlobal("condicionParada", CondicionParada.PERSEO_TIENE_CAPACIDAD_VUELO);
-		
-		// Añadir ifs según se añadan condiciones de parada...
+		CondicionParada cp = new CondicionParada(TiposParada.OBTENER_CAPACIDAD, personaje.getNombre_ser(), propiedad.toString());
+		ksession.setGlobal("condicionParada", cp);
 	}
 	
 	private void procesarLineaObjetivoTenerObjeto(String[] palabras) {
 		Ser personaje = seres.get(palabras[1]);
 		Objeto objeto = objetos.get(quitarInterrogacion(obtenerNombreObjeto(palabras, 3)));
 		
-		if(personaje.getNombre_ser().equals("Perseo") && objeto.getNombre_objeto().equals("Cabeza de Medusa"))
-			ksession.setGlobal("condicionParada", CondicionParada.PERSEO_TIENE_CABEZA_MEDUSA);
-		
-		// Añadir ifs según se añadan condiciones de parada...
+		CondicionParada cp = new CondicionParada(TiposParada.OBTENER_OBJETO, personaje.getNombre_ser(), objeto.getNombre_objeto());
+		ksession.setGlobal("condicionParada", cp);
 	}
 	
 	// LINEAS DE CONDICIONES ADICIONALES 

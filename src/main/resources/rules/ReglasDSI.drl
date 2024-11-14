@@ -6,6 +6,7 @@ import ser.*;
 import objeto.*;
 import relaciones.*;
 import dsi.CondicionParada;
+import dsi.TiposParada;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 
@@ -63,9 +64,9 @@ rule "Ser obtiene las capacidades de sus objetos especiales"
 		System.out.println($ser.getNombre_ser() + " obtiene Capacidad " + $objeto.getTiene_propiedad() + " debido a tener " + $objeto.getNombre_objeto());
 		
 		// Parada?
-		if(condicionParada == CondicionParada.PERSEO_TIENE_CAPACIDAD_VUELO) {
-			if($propiedad == Propiedad.VUELO && $ser.getNombre_ser().equals("Perseo")) {
-				System.out.println("TENEMOS VUELO");
+		if(condicionParada.getTipo() == TiposParada.OBTENER_CAPACIDAD) {
+			if($ser.getNombre_ser().equals(condicionParada.getPersonaje()) && $propiedad.toString().equals(condicionParada.getObjetivo())) {
+				System.out.println("TENEMOS CAPACIDAD");
 				kcontext.getKieRuntime().halt();
 			}
 		}
@@ -89,9 +90,9 @@ rule "Ser obtiene los objetos del ser al que mata"
 			System.out.println($matador.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a matar a " + $matado.getNombre_ser());
 			
 			// Parada?
-			if(condicionParada == CondicionParada.PERSEO_TIENE_CABEZA_MEDUSA) {
-				if(p.getObjeto().getNombre_objeto().equals("Cabeza de Medusa") && $matador.getNombre_ser().equals("Perseo")) {
-					System.out.println("CABEZA MEDUSA");
+			if(condicionParada.getTipo() == TiposParada.OBTENER_OBJETO) {
+				if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
+					System.out.println("TENEMOS OBJETO");
 					kcontext.getKieRuntime().halt();
 				}
 			}
@@ -114,15 +115,15 @@ rule "Ser libera al apresado de a quien haya matado"
 		System.out.println($matador.getNombre_ser() + " libera a " + $apresado.getNombre_ser() + " debido a matar a " + $apresador.getNombre_ser());
 		
 		// Parada?
-		if(condicionParada == CondicionParada.PERSEO_LIBERA_ANDROMEDA) {
-			if($apresado.getNombre_ser().equals("Andromeda")) {
-				System.out.println("ANDROMEDA LIBRE");
+		if(condicionParada.getTipo() == TiposParada.LIBERAR_PERSONAJE) {
+			if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && $apresado.getNombre_ser().equals(condicionParada.getObjetivo())) {
+				System.out.println("PERSONAJE LIBERADO");
 				kcontext.getKieRuntime().halt();
 			}
 		}
 end
 
-// Reglas específicas
+// Reglas específicas del mito de Casiopea
 
 // 2.1 - Si existe un humano con nombre Casiopea y tiene el enojo de un dios con nombre Poseidon, la criatura de nombre Ceto es liberada por Poseidon
 rule "Poseidon libera a Ceto"
@@ -154,13 +155,13 @@ rule "Ceto apresa a Andromeda"
         System.out.println($humano.getNombre_ser() + " queda presa debido a estar " + $criatura.getNombre_ser() + " libre");
 end
 
-// 2.3 - Si existe un semidios llamado Perseo que tiene el favor de un Dios llamado Hermes, el favor de un Dios llamado Atenea y la capacidad Invisibilidad, Perseo tiene el favor de el dios llamado Las Grayas
-rule "Perseo obtiene favor Grayas"
+// 2.3 - Si existe un semidios x que tiene el favor de un Dios llamado Hermes, el favor de un Dios llamado Atenea y la capacidad Invisibilidad, x tiene el favor de el dios llamado Las Grayas
+rule "Semidios obtiene favor Grayas"
 	salience 11
 	when	
+		$semidios : Semidios()
 		$dios1 : Dios (nombre_ser == "Hermes")
 		$dios2 : Dios (nombre_ser == "Atenea")
-		$semidios : Semidios(nombre_ser == "Perseo")
 		$deidadmenor : DeidadMenor(nombre_ser == "Las Grayas")
 		Favor (favorecedor == $dios1, favorecido == $semidios)
 		Favor (favorecedor == $dios2, favorecido == $semidios)
@@ -169,71 +170,70 @@ rule "Perseo obtiene favor Grayas"
 	then		
 		Favor f = new Favor($deidadmenor, $semidios);
 		insert(f);	
-		System.out.println("Perseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.");
-		System.out.println("Perseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.");
-		System.out.println("Perseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas");
+		System.out.println($semidios.getNombre_ser() + " localiza a las Grayas debido a tener el favor de Hermes y Atenea.");
+		System.out.println($semidios.getNombre_ser() + " obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.");
+		System.out.println($semidios.getNombre_ser() + " obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas");
 end
 
-// 2.4 - Si existe un semidios llamado Perseo que tiene el favor de un Dios llamado Las Grayas, Perseo tiene el favor de el Dios llamado Ninfas
-rule "Perseo obtiene favor Ninfas"
+// 2.4 - Si existe un semidios x que tiene el favor de un Dios llamado Las Grayas, x tiene el favor de el Dios llamado Ninfas
+rule "Semidios obtiene favor Ninfas"
 	salience 10
 	when
+		$semidios : Semidios()
 		$dios1 : Dios (nombre_ser == "Las Grayas")
 		$dios2 : Dios (nombre_ser == "Las Ninfas")
-		$semidios : Semidios (nombre_ser == "Perseo")
 		Favor (favorecedor == $dios1, favorecido == $semidios)
 		not Favor (favorecedor == $dios2, favorecido == $semidios)
 	then
 		Favor f = new Favor($dios2, $semidios);
 		insert(f);
-		System.out.println("Perseo localiza a las Ninfas debido a tener el favor de las Grayas");
+		System.out.println($semidios.getNombre_ser() + " localiza a las Ninfas debido a tener el favor de las Grayas");
 end
 
-// 2.5 - Si existe un semidios llamado Perseo que tiene las capacidades Vuelo, Invisibilidad y Reflejo, y que tiene el objeto Hoz de Acero o el objeto Espada Indestructible, Perseo mata al Dios llamado Medusa
-rule "Perseo mata a Medusa"
+// 2.5 - Si existe un semidios x que tiene las capacidades Vuelo, Invisibilidad y Reflejo, y que tiene el objeto Hoz de Acero o el objeto Espada Indestructible, x mata al Dios llamado Medusa
+rule "Semidios mata a Medusa"
 	salience 9
 	when
-		$objeto1 : Objeto (nombre_objeto == "Hoz de Acero")
-		$objeto2 : Objeto (nombre_objeto == "Espada Indestructible")
-		$semidios : Semidios (nombre_ser == "Perseo")
+		$semidios : Semidios()
+		$arma : Arma()
 		$dios: Dios (nombre_ser == "Medusa", vivo == true)
 		Capacidades (poseedor == $semidios, capacidad == Propiedad.VUELO)
 		Capacidades (poseedor == $semidios, capacidad == Propiedad.INVISIBILIDAD)
 		Capacidades (poseedor == $semidios, capacidad == Propiedad.REFLEJO)
-		( Posee (poseedor == $semidios, objeto == $objeto1) or Posee (poseedor == $semidios, objeto == $objeto2) )
+		Posee (poseedor == $semidios, objeto == $arma)
 	then
 		Mata m = new Mata($semidios, $dios);
 		insert(m);
 		modify($dios){
 			setVivo(false);
 		}
-		System.out.println("Perseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma");
+		System.out.println($semidios.getNombre_ser() + " mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y el arma " + $arma.getNombre_objeto());
 		
 		
 end
 
-// 2.6 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa y no tiene el objeto Zurrón Mágico, Perseo muere
-rule "Perseo muere si mata a Medusa sin el Zurron Magico"    
+// 2.6 - Si existe un semidios x que tiene el objeto llamado Cabeza de Medusa y no tiene el objeto Zurrón Mágico, x muere
+rule "Semidios muere si mata a Medusa sin el Zurron Magico"    
 	salience 7
     when
     	$objeto1 : Objeto(nombre_objeto == "Cabeza de Medusa")
     	$objeto2 : Objeto(nombre_objeto == "Zurron Magico")
-        $semidios : Semidios(nombre_ser == "Perseo", vivo == true) 
+        $semidios : Semidios(vivo == true) 
         Posee (poseedor == $semidios, objeto == $objeto1)
         not Posee (poseedor == $semidios, objeto == $objeto2)
     then
         modify($semidios) {
             setVivo(false);
         }        
-        System.out.println("Perseo muere al coger la cabeza de Medusa sin tener el Zurron Magico");
+        System.out.println($semidios.getNombre_ser() + " muere al coger la cabeza de Medusa sin tener el Zurron Magico");
 end
 
-// 2.7 - Si existe un semidios llamado Perseo que tiene el objeto llamado Cabeza de Medusa y existe una criatura llamada Ceto que haya apresado a un humano llamado Andromeda, Perseo mata a Ceto
-rule "Perseo mata a Ceto"
+// 2.7 - Si existe un semidios x que tiene el objeto llamado Cabeza de Medusa y existe una criatura llamada Ceto que haya apresado a un humano llamado Andromeda, x mata a Ceto
+rule "Semidios mata a Ceto"
 	salience 6
 	when
 		$objeto : Objeto (nombre_objeto == "Cabeza de Medusa")
-		$semidios : Semidios (nombre_ser == "Perseo", vivo == true)
+		$semidios : Semidios (vivo == true)
 		$criatura : Criatura (nombre_ser == "Ceto", vivo == true)
 		$humano : Humano (nombre_ser == "Andromeda");
 		Posee (poseedor == $semidios, objeto == $objeto)
@@ -244,20 +244,38 @@ rule "Perseo mata a Ceto"
 		modify($criatura) {
 			setVivo(false);
 		}
-		System.out.println("Perseo mata Ceto debido a tener Cabeza de Medusa.");
+		System.out.println($semidios.getNombre_ser() + " mata Ceto debido a tener Cabeza de Medusa");
 end
 
-// 2.8 - Si existe un semidios llamado Perseo que tiene el objeto llamado Bridas de Oro, Perseo obtiene el objeto llamado Pegaso
-rule "Perseo obtiene a Pegaso"
+// 2.8 - Si existe un semidios x que tiene el objeto llamado Bridas de Oro, x obtiene el objeto llamado Pegaso
+rule "Semidios obtiene a Pegaso"
 	salience 12
 	when
+		$semidios : Semidios()
 		$objeto1 : Objeto (nombre_objeto == "Bridas de Oro")
 		$objeto2 : Objeto (nombre_objeto == "Pegaso")
-		$semidios : Semidios (nombre_ser == "Perseo")
 		Posee (poseedor == $semidios, objeto == $objeto1)
 		not Posee (poseedor == $semidios, objeto == $objeto2)
 	then
 		Posee p = new Posee($semidios, $objeto2);
 		insert(p);
-		System.out.println("Perseo obtiene a Pegaso debido a tener las Bridas de Oro.");
+		System.out.println($semidios.getNombre_ser() + " obtiene a Pegaso debido a tener las Bridas de Oro.");
 end
+
+// Reglas específicas del mito de Teseo
+
+// 3.1 - Si existe un semidios x apresado por un Dios llamado Minos, el Semidios llamado Ariadna le da su hilo a x
+
+// 3.2 - Si existe un semidios x apresado por un Dios llamado Mino y x tiene un arma, x mata a la Criatura llamada Minotauro
+
+// 3.3 - Si existe un semidios x apresado por un Dios llamado Mino, x tiene el Objeto llamado Hilo de Ariadna y la Criatura llamada Minotauro esta muerta, x escapa
+
+// 3.4 - Si existe un semidios x que haya matado a la Criatura Minotauro y x ha escapado, el Dios Minos se enoja con el Humano Dedalo
+
+// 3.5 - Si existe un ser x que tiene el enojo del Dios llamado Minos, Minos apresa a x y a sus hijos
+
+// 3.6 - Si existe un ser x apresado por un Dios llamado Mino, la Criatura Minotauro está muerta, y quien ha matado a Minotauro es un Ser distinto de x, x obtiene el Objeto llamado Alas de Icaro
+
+// 3.7 - Si existe un ser x apresado por un Dios llamado Mino y x tiene la capacidad Vuelo, x escapa
+
+// 3.8 - Si existe un Humano llamado Icaro que ha escapado y que tenga el Objeto llamado Alas de Icaro, Icaro muere
