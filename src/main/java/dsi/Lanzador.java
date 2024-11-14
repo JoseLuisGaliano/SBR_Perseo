@@ -93,6 +93,9 @@ public class Lanzador {
 		Posee p7 = new Posee(g1, o1);
 		Posee p8 = new Posee(n2, o2);
 		Posee p9 = new Posee(n2, o7);
+		Posee p10 = new Posee(s2, o15);
+		Posee p11 = new Posee(s3, o14);
+		Posee p12 = new Posee(c2, o16);
 		
 		// Añadimos a mapas para el lector de fichero
 		HashMap<String, Ser> seres = new HashMap<String, Ser>();
@@ -148,6 +151,9 @@ public class Lanzador {
 		posesiones.add(p7);
 		posesiones.add(p8);
 		posesiones.add(p9);
+		posesiones.add(p10);
+		posesiones.add(p11);
+		posesiones.add(p12);
 		
 		// Añadimos a la base de conocimiento
 		kSession.insert(s1);
@@ -201,11 +207,14 @@ public class Lanzador {
 		kSession.insert(p7);
 		kSession.insert(p8);
 		kSession.insert(p9);
+		kSession.insert(p10);
+		kSession.insert(p11);
+		kSession.insert(p12);
 		
 		// Llamamos al lector de fichero
 		LectorFichero lf = new LectorFichero(seres, objetos, posesiones, kSession);
 		try {
-			lf.leerArchivo("entrada5.txt");
+			lf.leerArchivo("pruebas.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
