@@ -171,6 +171,7 @@ rule "Semidios obtiene favor Grayas"
 		Favor (favorecedor == $dios2, favorecido == $semidios)
 		Capacidades (poseedor == $semidios, capacidad == Propiedad.INVISIBILIDAD)
 		not Favor (favorecedor == $deidadmenor, favorecido == $semidios)
+		not Apresa (apresado == $semidios) // Necesitas estar libre para desplazarte a donde esten las Grayas
 	then		
 		Favor f = new Favor($deidadmenor, $semidios);
 		insert(f);	
@@ -188,6 +189,7 @@ rule "Semidios obtiene favor Ninfas"
 		$dios2 : Dios (nombre_ser == "Las Ninfas")
 		Favor (favorecedor == $dios1, favorecido == $semidios)
 		not Favor (favorecedor == $dios2, favorecido == $semidios)
+		not Apresa (apresado == $semidios) // Necesitas estar libre para desplazarte a donde esten las Ninfas
 	then
 		Favor f = new Favor($dios2, $semidios);
 		insert(f);
@@ -205,6 +207,7 @@ rule "Semidios mata a Medusa"
 		Capacidades (poseedor == $semidios, capacidad == Propiedad.INVISIBILIDAD)
 		Capacidades (poseedor == $semidios, capacidad == Propiedad.REFLEJO)
 		Posee (poseedor == $semidios, objeto == $arma)
+		not Apresa (apresado == $semidios) // Necesitas estar libre para desplazarte a donde esta Medusa
 	then
 		Mata m = new Mata($semidios, $dios);
 		insert(m);
@@ -242,6 +245,7 @@ rule "Semidios mata a Ceto"
 		$humano : Humano (nombre_ser == "Andromeda");
 		Posee (poseedor == $semidios, objeto == $objeto)
 		Apresa (apresador == $criatura, apresado == $humano)
+		not Apresa (apresado == $semidios) // Necesitas estar libre para desplazarte a donde esta Ceto
 	then
 		Mata m = new Mata($semidios, $criatura);
 		insert(m);
@@ -260,6 +264,7 @@ rule "Semidios obtiene a Pegaso"
 		$objeto2 : Objeto (nombre_objeto == "Pegaso")
 		Posee (poseedor == $semidios, objeto == $objeto1)
 		not Posee (poseedor == $semidios, objeto == $objeto2)
+		not Apresa (apresado == $semidios) // Necesitas estar libre para desplazarte a donde esta Pegaso
 	then
 		Posee p = new Posee($semidios, $objeto2);
 		insert(p);
@@ -268,7 +273,7 @@ end
 
 // Reglas específicas del mito de Teseo
 
-// 3.1 - Si existe un semidios x apresado por un Dios llamado Minos, el Semidios llamado Ariadna le da su hilo a x
+// 3.1 - Si existe un semidios x apresado por un Dios llamado Minos y x no tiene el favor de ningún Dios, el Semidios llamado Ariadna le da su hilo a x
 rule "Semidios recibe hilo"
 	salience 11
 	when
@@ -278,6 +283,7 @@ rule "Semidios recibe hilo"
 		$objeto : Objeto(nombre_objeto == "Hilo de Ariadna")
 		Apresa (apresador == $dios, apresado == $semidios)
 		$p : Posee (poseedor == $ariadna, objeto == $objeto)
+		not Favor (favorecido == $semidios)
 	then
 		modify($p) {
 			setPoseedor($semidios);
@@ -402,3 +408,24 @@ rule "Icaro vuela demasiado cerca del sol"
 		}
 		System.out.println("Ícaro vuela demasiado alto con las alas y se muere");
 end
+
+// Reglas conjuntas
+
+// 4.1 - Si existe un Ser x que posee el Objeto llamado Zurron Magico, existe un Ser z que haya escapado del laberinto, y z posee un Objeto llamado Alas de Icaro, entonces x obtiene Alas de Icaro
+rule "Ser recibe alas de quien haya escapado con ellas"
+	salience 1
+	when
+		$semidios : Semidios ()
+		$escapado : Ser (vivo == true)
+		$objeto1 : Objeto (nombre_objeto == "Alas de Icaro")
+		$objeto2 : Objeto (nombre_objeto == "Zurron Magico")
+		$p : Posee (poseedor == $escapado, objeto == $objeto1)
+		Posee (poseedor == $semidios, objeto == $objeto2)
+		Libera (liberador == $escapado, liberado == $escapado)
+	then
+		modify($p) {
+			setPoseedor($semidios);
+		}
+		System.out.println($escapado.getNombre_ser() + " le da sus alas a " + $semidios.getNombre_ser() + " tras haber escapado del laberinto");
+end
+// NOTA: x tiene que poseer Zurron Magico porque demuestra que tiene la intencion de obtener la cabeza de Medusa y por tanto liberar a Andromeda
