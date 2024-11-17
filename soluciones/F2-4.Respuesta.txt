@@ -1,14 +1,18 @@
+Heracles obtiene Capacidad INVISIBILIDAD debido a que su padre es Zeus
+Heracles obtiene Capacidad PETRIFICAR debido a que su padre es Zeus
+Heracles obtiene Capacidad VUELO debido a que su padre es Zeus
+Heracles obtiene Capacidad REFLEJO debido a que su padre es Zeus
 Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
 Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
 Atenea obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
-Perseo obtiene Escudo de Bronce debido a tener el favor de Atenea
-Atenea pierde la capacidad REFLEJO
-Perseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
-Perseo obtiene Hoz de Acero debido a tener el favor de Hermes
 Perseo obtiene Casco de Hades debido a tener el favor de Hades
 Hades pierde la capacidad INVISIBILIDAD
 Perseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
+Perseo obtiene Hoz de Acero debido a tener el favor de Hermes
+Perseo obtiene Escudo de Bronce debido a tener el favor de Atenea
+Atenea pierde la capacidad REFLEJO
+Perseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
 Perseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.
 Perseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
 Perseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas

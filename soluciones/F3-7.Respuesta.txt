@@ -8,15 +8,18 @@ Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
 Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
 Atenea obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
-Teseo obtiene Casco de Hades debido a tener el favor de Hades
-Hades pierde la capacidad INVISIBILIDAD
-Teseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
-Teseo obtiene Hoz de Acero debido a tener el favor de Hermes
-Teseo obtiene Bridas de Oro debido a tener el favor de Hefesto
-Teseo obtiene Espada Indestructible debido a tener el favor de Hefesto
+Teseo recibe el hilo de Ariadna
+Teseo obtiene Cuerno del Minotauro debido a matar a Minotauro
+Teseo ha escapado del laberinto debido a tener el hilo de Ariadna y estar el Minotauro muerto
 Teseo obtiene Escudo de Bronce debido a tener el favor de Atenea
 Atenea pierde la capacidad REFLEJO
 Teseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
+Teseo obtiene Bridas de Oro debido a tener el favor de Hefesto
+Teseo obtiene Espada Indestructible debido a tener el favor de Hefesto
+Teseo obtiene Hoz de Acero debido a tener el favor de Hermes
+Teseo obtiene Casco de Hades debido a tener el favor de Hades
+Hades pierde la capacidad INVISIBILIDAD
+Teseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
 Teseo obtiene a Pegaso debido a tener las Bridas de Oro.
 Teseo obtiene Capacidad VUELO debido a tener Pegaso
 Teseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.
@@ -30,6 +33,9 @@ Teseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y el arma Hoz de
 Teseo obtiene Cabeza de Medusa debido a matar a Medusa
 Teseo obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Teseo mata Ceto debido a tener Cabeza de Medusa
+Minos se enoja con Dédalo debido al escape de Teseo
+Minos apresa a Dedalo
+Minos apresa a Icaro debido a ser hijo de Dedalo
 Teseo libera a Andromeda debido a matar a Ceto
 
 CONCLUSIÓN: Teseo sí puede liberar a Andromeda

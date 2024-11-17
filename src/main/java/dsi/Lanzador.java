@@ -33,7 +33,7 @@ public class Lanzador {
 		KieContainer kContainer = ks.getKieClasspathContainer();		
 		KieSession kSession = kContainer.newKieSession("ksession-rules-dsi");
 		
-		// Lanzamos las reglas para cada fichero en el directorio escenarios	
+		// Lanzamos las reglas para cada fichero en el directorio escenarios
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirEntrada, "*.txt")) {
 			for (Path entry : stream) {
 				// Creamos el archivo de salida
@@ -72,7 +72,6 @@ public class Lanzador {
 	    	e.printStackTrace();
 	    }
 		
-		
 		/*
 		// EJECUCIÓN PARA DEBUGGEAR
 		
@@ -83,12 +82,13 @@ public class Lanzador {
 		// Llamamos al lector de fichero
 		LectorFichero lf = new LectorFichero(bh.getSeres(), bh.getObjetos(), bh.getPosesiones(), kSession);
 		try {
-			lf.leerArchivo("F3-5.txt");
+			lf.leerArchivo("escenarios/F3-7.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		kSession.fireAllRules();
 		*/
+		
 	}
 }

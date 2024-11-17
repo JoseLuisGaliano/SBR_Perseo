@@ -33,6 +33,7 @@ public class BaseHechos {
 		Semidios s1 = new Semidios("Perseo");
 		Semidios s2 = new Semidios("Teseo");
 		Semidios s3 = new Semidios("Ariadna");
+		Semidios s4 = new Semidios("Heracles");
 		Humano h1 = new Humano("Casiopea");
 		Humano h2 = new Humano("Danae");
 		Humano h3 = new Humano("Cefeo");
@@ -95,6 +96,7 @@ public class BaseHechos {
 		Familia f2 = new Familia(h3, h4);
 		Familia f3 = new Familia(h6, h5);
 		Familia f4 = new Familia(d8, s3);
+		Familia f5 = new Familia(d1, s4);
 
 		// Posesiones
 		Posee p1 = new Posee(d3, oe3);
@@ -115,6 +117,7 @@ public class BaseHechos {
 		seres.put("Perseo", s1);
 		seres.put("Teseo", s2);
 		seres.put("Ariadna", s3);
+		seres.put("Heracles", s4);
 		seres.put("Casiopea", h1);
 		seres.put("Danae", h2);
 		seres.put("Cefeo", h3);
@@ -170,6 +173,7 @@ public class BaseHechos {
 		kSession.insert(s1);
 		kSession.insert(s2);
 		kSession.insert(s3);
+		kSession.insert(s4);
 		kSession.insert(h1);
 		kSession.insert(h2);
 		kSession.insert(h3);
@@ -209,6 +213,7 @@ public class BaseHechos {
 		kSession.insert(f2);
 		kSession.insert(f3);
 		kSession.insert(f4);
+		kSession.insert(f5);
 		kSession.insert(p1);
 		kSession.insert(p2);
 		kSession.insert(p3);

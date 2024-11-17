@@ -36,6 +36,7 @@ rule "Mortal obtiene objetos de los dioses que le favorecen"
 		$dios : Dios()
 		$mortal : Mortal()
 		Favor (favorecedor == $dios, favorecido == $mortal)
+		not Apresa (apresado == $mortal) // Necesitas estar libre para poder recibir objetos
 	then
 		// Le damos los objetos al mortal
 		QueryResults results = kcontext.getKieRuntime().getQueryResults("getInventario", $dios);
@@ -44,10 +45,10 @@ rule "Mortal obtiene objetos de los dioses que le favorecen"
 			p.setPoseedor($mortal);
 			update(p);			
 			System.out.println($mortal.getNombre_ser() + " obtiene " + p.getObjeto().getNombre_objeto() + " debido a tener el favor de " + $dios.getNombre_ser());
-			
+
 			// Parada?
 			if(condicionParada.getTipo() == TiposParada.OBTENER_OBJETO) {
-				if($mortal.getNombre_ser().equals(condicionParada.getPersonaje()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
+				if(condicionParada.getPersonaje().contains($mortal.getNombre_ser()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
 					System.out.println();
 					System.out.println("CONCLUSIÓN: " + $mortal.getNombre_ser() + " sí puede obtener el objeto" + p.getObjeto().getNombre_objeto());
 					kcontext.getKieRuntime().halt();
@@ -79,7 +80,7 @@ rule "Ser obtiene las capacidades de sus objetos especiales"
 		
 		// Parada?
 		if(condicionParada.getTipo() == TiposParada.OBTENER_CAPACIDAD) {
-			if($ser.getNombre_ser().equals(condicionParada.getPersonaje()) && $propiedad.toString().equals(condicionParada.getObjetivo())) {
+			if(condicionParada.getPersonaje().contains($ser.getNombre_ser()) && $propiedad.toString().equals(condicionParada.getObjetivo())) {
 				System.out.println();
 				System.out.println("CONCLUSIÓN: " + $ser.getNombre_ser() + " sí puede obtener la capacidad " + $objeto.getTiene_propiedad());
 				kcontext.getKieRuntime().halt();
@@ -106,7 +107,7 @@ rule "Ser obtiene los objetos del ser al que mata"
 			
 			// Parada?
 			if(condicionParada.getTipo() == TiposParada.OBTENER_OBJETO) {
-				if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
+				if(condicionParada.getPersonaje().contains($matador.getNombre_ser()) && p.getObjeto().getNombre_objeto().equals(condicionParada.getObjetivo())) {
 					System.out.println();
 					System.out.println("CONCLUSIÓN: " + $matador.getNombre_ser() + " sí puede obtener el objeto" + p.getObjeto().getNombre_objeto());
 					kcontext.getKieRuntime().halt();
@@ -132,7 +133,7 @@ rule "Ser libera al apresado de a quien haya matado"
 		
 		// Parada?
 		if(condicionParada.getTipo() == TiposParada.LIBERAR_PERSONAJE) {
-			if($matador.getNombre_ser().equals(condicionParada.getPersonaje()) && $apresado.getNombre_ser().equals(condicionParada.getObjetivo())) {
+			if(condicionParada.getPersonaje().contains($matador.getNombre_ser()) && $apresado.getNombre_ser().equals(condicionParada.getObjetivo())) {
 				System.out.println();
 				System.out.println("CONCLUSIÓN: " + $matador.getNombre_ser() + " sí puede liberar a " + $apresado.getNombre_ser());
 				kcontext.getKieRuntime().halt();
@@ -286,23 +287,23 @@ end
 
 // Reglas específicas del mito de Teseo
 
-// 3.1 - Si existe un semidios x apresado por un Dios llamado Minos y x no tiene el favor de ningún Dios, el Semidios llamado Ariadna le da su hilo a x
-rule "Semidios recibe hilo"
+// 3.1 - Si existe el semidios llamado Teseo y Teseo es apresado por un Dios llamado Minos, el Semidios llamado Ariadna le da su hilo a Teseo
+rule "Teseo recibe hilo"
 	salience 11
 	when
-		$semidios : Semidios()
+		$semidios : Semidios(nombre_ser == "Teseo")
 		$dios : Dios(nombre_ser == "Minos")
 		$ariadna : Semidios(nombre_ser == "Ariadna")
 		$objeto : Objeto(nombre_objeto == "Hilo de Ariadna")
 		Apresa (apresador == $dios, apresado == $semidios)
 		$p : Posee (poseedor == $ariadna, objeto == $objeto)
-		not Favor (favorecido == $semidios)
 	then
 		modify($p) {
 			setPoseedor($semidios);
 		}
 		System.out.println($semidios.getNombre_ser() + " recibe el hilo de Ariadna");
 end
+// NOTA: Se ha optado por poner que es específicamente Teseo quien recibe el hilo ya que el motivo de que lo reciba es porque Ariadna se enamora de él, por lo tanto tiene sentido especificar ya que Ariadna no se enamora de cualquier semidios x, sino de Teseo
 
 // 3.2 - Si existe un semidios x apresado por un Dios llamado Minos y x tiene un arma, x mata a la Criatura llamada Minotauro
 rule "Semidios mata a Minotauro"
@@ -376,7 +377,7 @@ rule "Minos apresa a sus enemigos y sus familias"
 		}
 end
 
-// 3.6 - Si existe un ser x apresado por un Dios llamado Minos, la Criatura Minotauro está muerta, y quien ha matado a Minotauro es un Ser distinto de x, x obtiene el Objeto llamado Alas de Icaro
+// 3.6 - Si existe un ser x apresado por un Dios llamado Minos y la Criatura Minotauro está muerta, x obtiene el Objeto llamado Alas de Icaro
 rule "Ser encuentra las alas en el laberinto"
 	salience 3
 	when
@@ -385,7 +386,6 @@ rule "Ser encuentra las alas en el laberinto"
 		$criatura : Criatura (nombre_ser == "Minotauro", vivo == false)
 		$objeto : Objeto(nombre_objeto == "Alas de Icaro")
 		Apresa (apresador == $dios, apresado == $ser)
-		not Mata (matador == $ser, matado == $criatura)
 	then
 		Posee p = new Posee($ser, $objeto);
 		insert(p);
@@ -422,7 +422,7 @@ rule "Icaro vuela demasiado cerca del sol"
 		System.out.println("Ícaro vuela demasiado alto con las alas y se muere");
 end
 
-// Reglas conjuntas
+// Reglas específicas para todos los mitos
 
 // 4.1 - Si existe un Ser x que posee el Objeto llamado Zurron Magico, existe un Ser z que haya escapado del laberinto, y z posee un Objeto llamado Alas de Icaro, entonces x obtiene Alas de Icaro
 rule "Ser recibe alas de quien haya escapado con ellas"
@@ -435,6 +435,7 @@ rule "Ser recibe alas de quien haya escapado con ellas"
 		$p : Posee (poseedor == $escapado, objeto == $objeto1)
 		Posee (poseedor == $semidios, objeto == $objeto2)
 		Libera (liberador == $escapado, liberado == $escapado)
+		not Posee (poseedor == $semidios, objeto == $objeto1)
 	then
 		modify($p) {
 			setPoseedor($semidios);
@@ -442,3 +443,27 @@ rule "Ser recibe alas de quien haya escapado con ellas"
 		System.out.println($escapado.getNombre_ser() + " le da sus alas a " + $semidios.getNombre_ser() + " tras haber escapado del laberinto");
 end
 // NOTA: x tiene que poseer Zurron Magico porque demuestra que tiene la intencion de obtener la cabeza de Medusa y por tanto liberar a Andromeda
+
+// 4.2 - Si existe un Ser x hijo del Dios llamado Zeus, x tiene todas las capacidades
+rule "Heracles tiene todas las capacidades al empezar"
+	salience 15
+	when
+		$semidios : Semidios()
+		$dios: Dios (nombre_ser == "Zeus")
+		Familia (padre == $dios, hijo == $semidios)
+	then
+		for (Propiedad p : Propiedad.values()) {
+			Capacidades c = new Capacidades($semidios, p);
+			insert(c);
+			System.out.println($semidios.getNombre_ser() + " obtiene Capacidad " + p + " debido a que su padre es Zeus");
+			
+			// Parada?
+			if(condicionParada.getTipo() == TiposParada.OBTENER_CAPACIDAD) {
+				if($semidios.getNombre_ser().equals(condicionParada.getPersonaje()) && p.toString().equals(condicionParada.getObjetivo())) {
+					System.out.println();
+					System.out.println("CONCLUSIÓN: " + $semidios.getNombre_ser() + " sí puede obtener la capacidad " + p);
+					kcontext.getKieRuntime().halt();
+				}
+			}
+		}
+end

@@ -1,0 +1,35 @@
+Heracles obtiene Capacidad INVISIBILIDAD debido a que su padre es Zeus
+Heracles obtiene Capacidad PETRIFICAR debido a que su padre es Zeus
+Heracles obtiene Capacidad VUELO debido a que su padre es Zeus
+Heracles obtiene Capacidad REFLEJO debido a que su padre es Zeus
+Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
+Andromeda queda presa debido a estar Ceto libre
+Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
+Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
+Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
+Atenea obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
+Ariadna obtiene Casco de Hades debido a tener el favor de Hades
+Hades pierde la capacidad INVISIBILIDAD
+Ariadna obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
+Ariadna obtiene Hoz de Acero debido a tener el favor de Hermes
+Ariadna obtiene Bridas de Oro debido a tener el favor de Hefesto
+Ariadna obtiene Espada Indestructible debido a tener el favor de Hefesto
+Ariadna obtiene Escudo de Bronce debido a tener el favor de Atenea
+Atenea pierde la capacidad REFLEJO
+Ariadna obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
+Ariadna obtiene a Pegaso debido a tener las Bridas de Oro.
+Ariadna obtiene Capacidad VUELO debido a tener Pegaso
+Ariadna localiza a las Grayas debido a tener el favor de Hermes y Atenea.
+Ariadna obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
+Ariadna obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas
+Ariadna localiza a las Ninfas debido a tener el favor de las Grayas
+Ariadna obtiene Sandalias Aladas debido a tener el favor de Las Ninfas
+Ariadna obtiene Zurron Magico debido a tener el favor de Las Ninfas
+Las Ninfas pierde la capacidad VUELO
+Ariadna mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y el arma Hoz de Acero
+Ariadna obtiene Cabeza de Medusa debido a matar a Medusa
+Ariadna obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
+Ariadna mata Ceto debido a tener Cabeza de Medusa
+Ariadna libera a Perseo debido a matar a Ceto
+
+CONCLUSIÓN: Ariadna sí puede liberar a Perseo
