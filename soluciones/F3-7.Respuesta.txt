@@ -1,7 +1,4 @@
-Heracles obtiene Capacidad INVISIBILIDAD debido a que su padre es Zeus
-Heracles obtiene Capacidad PETRIFICAR debido a que su padre es Zeus
-Heracles obtiene Capacidad VUELO debido a que su padre es Zeus
-Heracles obtiene Capacidad REFLEJO debido a que su padre es Zeus
+Heracles obtiene Capacidad SUPERFUERZA y Capacidad VUELO debido a que su padre es Zeus
 Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
 Andromeda queda presa debido a estar Ceto libre
 Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
@@ -9,33 +6,34 @@ Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
 Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
 Atenea obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
 Teseo recibe el hilo de Ariadna
-Teseo obtiene Cuerno del Minotauro debido a matar a Minotauro
-Teseo ha escapado del laberinto debido a tener el hilo de Ariadna y estar el Minotauro muerto
-Teseo obtiene Escudo de Bronce debido a tener el favor de Atenea
+Heracles mata al Minotauro
+Heracles escapa del laberinto debido a tener la capacidad Vuelo
+Heracles obtiene Escudo de Bronce debido a tener el favor de Atenea
 Atenea pierde la capacidad REFLEJO
-Teseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
-Teseo obtiene Bridas de Oro debido a tener el favor de Hefesto
-Teseo obtiene Espada Indestructible debido a tener el favor de Hefesto
-Teseo obtiene Hoz de Acero debido a tener el favor de Hermes
-Teseo obtiene Casco de Hades debido a tener el favor de Hades
+Heracles obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
+Heracles obtiene Bridas de Oro debido a tener el favor de Hefesto
+Heracles obtiene Espada Indestructible debido a tener el favor de Hefesto
+Heracles obtiene Hoz de Acero debido a tener el favor de Hermes
+Heracles obtiene Casco de Hades debido a tener el favor de Hades
 Hades pierde la capacidad INVISIBILIDAD
-Teseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
-Teseo obtiene a Pegaso debido a tener las Bridas de Oro.
-Teseo obtiene Capacidad VUELO debido a tener Pegaso
-Teseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.
-Teseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
-Teseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas
-Teseo localiza a las Ninfas debido a tener el favor de las Grayas
-Teseo obtiene Sandalias Aladas debido a tener el favor de Las Ninfas
-Teseo obtiene Zurron Magico debido a tener el favor de Las Ninfas
+Heracles obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
+Heracles obtiene a Pegaso debido a tener las Bridas de Oro.
+Heracles localiza a las Grayas debido a tener el favor de Hermes y Atenea.
+Heracles obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
+Heracles obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas
+Heracles localiza a las Ninfas debido a tener el favor de las Grayas
+Heracles obtiene Sandalias Aladas debido a tener el favor de Las Ninfas
+Heracles obtiene Zurron Magico debido a tener el favor de Las Ninfas
 Las Ninfas pierde la capacidad VUELO
-Teseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y el arma Hoz de Acero
-Teseo obtiene Cabeza de Medusa debido a matar a Medusa
-Teseo obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
-Teseo mata Ceto debido a tener Cabeza de Medusa
-Minos se enoja con Dédalo debido al escape de Teseo
+Heracles mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma
+Heracles obtiene Cuerno del Minotauro debido a matar a Minotauro
+Heracles obtiene Cabeza de Medusa debido a matar a Medusa
+Heracles obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
+Heracles mata Ceto debido a tener la capacidad PETRIFICAR
+Teseo ha escapado del laberinto debido a tener el hilo de Ariadna y estar el Minotauro muerto
+Minos se enoja con Dédalo debido al escape de Heracles
 Minos apresa a Dedalo
 Minos apresa a Icaro debido a ser hijo de Dedalo
-Teseo libera a Andromeda debido a matar a Ceto
+Heracles libera a Andromeda debido a matar a Ceto
 
-CONCLUSIÓN: Teseo sí puede liberar a Andromeda
+CONCLUSIÓN: Heracles sí puede liberar a Andromeda

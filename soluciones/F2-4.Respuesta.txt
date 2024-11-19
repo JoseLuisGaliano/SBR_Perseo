@@ -1,7 +1,3 @@
-Heracles obtiene Capacidad INVISIBILIDAD debido a que su padre es Zeus
-Heracles obtiene Capacidad PETRIFICAR debido a que su padre es Zeus
-Heracles obtiene Capacidad VUELO debido a que su padre es Zeus
-Heracles obtiene Capacidad REFLEJO debido a que su padre es Zeus
 Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
 Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades

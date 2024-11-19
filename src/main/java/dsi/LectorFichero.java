@@ -23,11 +23,15 @@ public class LectorFichero {
 	private Map<String, Objeto> objetos;
 	private List<Posee> posesiones;
 	private KieSession ksession;
+	private Apresa apH;
+	private Apresa apTB;
 	
-	public LectorFichero(Map<String, Ser> seres, Map<String, Objeto> objetos, List<Posee> posesiones, KieSession ksession) {
+	public LectorFichero(Map<String, Ser> seres, Map<String, Objeto> objetos, List<Posee> posesiones, Apresa apH, Apresa apTB, KieSession ksession) {
 		this.seres = seres;
 		this.objetos = objetos;
 		this.posesiones = posesiones;
+		this.apH = apH;
+		this.apTB = apTB;
 		this.ksession = ksession;
 	}
 	
@@ -81,7 +85,7 @@ public class LectorFichero {
 	    }
 	    
 	    // palabras[1] = personaje
-	    // Caso especial: Si el personaje es "alguno", se pregunta por que cualquier semidios pueda liberar a Andromeda (escenario 3-7)
+	    // Caso especial: Si el personaje es "alguno", se pregunta por que cualquier semidios pueda liberar a Andromeda (escenario 7)
 	    if(palabras[1].equals("alguno")) {
 	    	procesarLineaObjetivoLiberarTodos(palabras);
 	    	return;
@@ -209,9 +213,25 @@ public class LectorFichero {
 	private void procesarLineaObjetivoLiberar(String[] palabras) {
 		Ser personaje_liberador = seres.get(palabras[1]);
 		Ser personaje_liberado = seres.get(quitarInterrogacion(palabras[4]));
-		
 		List<String> personajes = new ArrayList<String>();
-		personajes.add(personaje_liberador.getNombre_ser());
+		
+		// Caso especial: Mito del Toro Blanco
+		if(personaje_liberado.getNombre_ser().equals("Heracles")) {
+			// Borramos el apresamiento de Heracles
+			FactHandle f = ksession.getFactHandle(apH);
+			if(f != null) ksession.delete(f);
+			// Borramos el apresamiento del Toro Blanco
+			f = ksession.getFactHandle(apTB);
+			if(f != null) ksession.delete(f);
+			// Participan Perseo, Teseo y Ariadna
+			personajes.add(seres.get("Perseo").getNombre_ser());
+			personajes.add(seres.get("Teseo").getNombre_ser());
+			personajes.add(seres.get("Ariadna").getNombre_ser());
+		}
+		else {
+			personajes.add(personaje_liberador.getNombre_ser());
+		}
+
 		CondicionParada cp = new CondicionParada(TiposParada.LIBERAR_PERSONAJE, personajes, personaje_liberado.getNombre_ser());
 		ksession.setGlobal("condicionParada", cp);
 	}
@@ -221,6 +241,11 @@ public class LectorFichero {
 		Ser personaje_liberador2 = seres.get("Teseo");
 		Ser personaje_liberador3 = seres.get("Heracles");
 		Ser personaje_liberado = seres.get(quitarInterrogacion(palabras[4]));
+		
+		// Caso especial: Escenario 7
+		// Borramos el apresamiento de Heracles
+		FactHandle f = ksession.getFactHandle(apH);
+		if(f != null) ksession.delete(f);
 		
 		List<String> personajes = new ArrayList<String>();
 		personajes.add(personaje_liberador1.getNombre_ser());

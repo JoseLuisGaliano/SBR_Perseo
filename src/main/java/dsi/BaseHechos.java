@@ -17,12 +17,16 @@ public class BaseHechos {
 	private Map<String, Ser> seres;
 	private Map<String, Objeto> objetos;
 	private List<Posee> posesiones;
+	private Apresa apresamientoHeracles;
+	private Apresa apresamientoToroBlanco;
 	
 	public BaseHechos(KieSession kSession) {
 		this.kSession = kSession;
 		seres = new HashMap<String, Ser>();
 		objetos = new HashMap<String, Objeto>();
 		posesiones = new ArrayList<Posee>();
+		apresamientoHeracles = null;
+		apresamientoToroBlanco = null;
 	}
 
 	public void poblar() {
@@ -40,8 +44,10 @@ public class BaseHechos {
 		Humano h4 = new Humano("Andromeda");
 		Humano h5 = new Humano("Icaro");
 		Humano h6 = new Humano("Dedalo");
-		Criatura c1 = new Criatura("Ceto");
-		Criatura c2 = new Criatura("Minotauro");
+		CriaturaMarina c1 = new CriaturaMarina("Ceto");
+		CriaturaMarina c2 = new CriaturaMarina("Kraken");
+		Criatura c3 = new Criatura("Minotauro");
+		Criatura c4 = new Criatura("Toro Blanco");
 		
 		// Inmortales
 		DeidadMayor d1 = new DeidadMayor("Zeus");
@@ -97,6 +103,7 @@ public class BaseHechos {
 		Familia f3 = new Familia(h6, h5);
 		Familia f4 = new Familia(d8, s3);
 		Familia f5 = new Familia(d1, s4);
+		Familia f6 = new Familia(c4, c3);
 
 		// Posesiones
 		Posee p1 = new Posee(d3, oe3);
@@ -109,7 +116,11 @@ public class BaseHechos {
 		Posee p8 = new Posee(n2, o1);
 		Posee p9 = new Posee(s2, a3);
 		Posee p10 = new Posee(s3, o3);
-		Posee p11 = new Posee(c2, a4);
+		Posee p11 = new Posee(c3, a4);
+		
+		// Personajes especiales (sólo para ciertos escenarios)
+		apresamientoHeracles = new Apresa(d1, s4);
+		apresamientoToroBlanco = new Apresa(c4, c4);
 
 		// PREPARAMOS MAPAS PARA EL LECTOR DE FICHERO
 		
@@ -123,7 +134,9 @@ public class BaseHechos {
 		seres.put("Cefeo", h3);
 		seres.put("Andromeda", h4);
 		seres.put("Ceto", c1);
-		seres.put("Minotauro", c2);
+		seres.put("Kraken", c2);
+		seres.put("Minotauro", c3);
+		seres.put("Toro Blanco", c4);
 		seres.put("Zeus", d1);
 		seres.put("Poseidon", d2);
 		seres.put("Hades", d3);
@@ -168,7 +181,7 @@ public class BaseHechos {
 		posesiones.add(p9);
 		posesiones.add(p10);
 		posesiones.add(p11);
-
+		
 		// Añadimos todo a la base de hechos
 		kSession.insert(s1);
 		kSession.insert(s2);
@@ -190,6 +203,8 @@ public class BaseHechos {
 		kSession.insert(d8);
 		kSession.insert(c1);
 		kSession.insert(c2);
+		kSession.insert(c3);
+		kSession.insert(c4);
 		kSession.insert(n1);
 		kSession.insert(n2);
 		kSession.insert(g1);
@@ -214,6 +229,7 @@ public class BaseHechos {
 		kSession.insert(f3);
 		kSession.insert(f4);
 		kSession.insert(f5);
+		kSession.insert(f6);
 		kSession.insert(p1);
 		kSession.insert(p2);
 		kSession.insert(p3);
@@ -225,7 +241,8 @@ public class BaseHechos {
 		kSession.insert(p9);
 		kSession.insert(p10);
 		kSession.insert(p11);
-
+		kSession.insert(apresamientoHeracles);
+		kSession.insert(apresamientoToroBlanco);
 	}
 
 	public Map<String, Ser> getSeres() {
@@ -238,5 +255,13 @@ public class BaseHechos {
 
 	public List<Posee> getPosesiones() {
 		return posesiones;
+	}
+	
+	public Apresa getApresamientoHeracles() {
+		return apresamientoHeracles;
+	}
+	
+	public Apresa getApresamientoToroBlanco() {
+		return apresamientoToroBlanco;
 	}
 }

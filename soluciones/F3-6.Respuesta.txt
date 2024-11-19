@@ -1,7 +1,3 @@
-Heracles obtiene Capacidad INVISIBILIDAD debido a que su padre es Zeus
-Heracles obtiene Capacidad PETRIFICAR debido a que su padre es Zeus
-Heracles obtiene Capacidad VUELO debido a que su padre es Zeus
-Heracles obtiene Capacidad REFLEJO debido a que su padre es Zeus
 Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
 Andromeda queda presa debido a estar Ceto libre
 Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
@@ -26,10 +22,10 @@ Ariadna localiza a las Ninfas debido a tener el favor de las Grayas
 Ariadna obtiene Sandalias Aladas debido a tener el favor de Las Ninfas
 Ariadna obtiene Zurron Magico debido a tener el favor de Las Ninfas
 Las Ninfas pierde la capacidad VUELO
-Ariadna mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y el arma Hoz de Acero
+Ariadna mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma
 Ariadna obtiene Cabeza de Medusa debido a matar a Medusa
 Ariadna obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
-Ariadna mata Ceto debido a tener Cabeza de Medusa
+Ariadna mata Ceto debido a tener la capacidad PETRIFICAR
 Ariadna libera a Perseo debido a matar a Ceto
 
 CONCLUSIÓN: Ariadna sí puede liberar a Perseo

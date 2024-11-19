@@ -50,7 +50,7 @@ public class Lanzador {
 					bh.poblar();
 					
 					// Llamamos al lector de fichero
-		            LectorFichero lf = new LectorFichero(bh.getSeres(), bh.getObjetos(), bh.getPosesiones(), kSession);
+		            LectorFichero lf = new LectorFichero(bh.getSeres(), bh.getObjetos(), bh.getPosesiones(), bh.getApresamientoHeracles(), bh.getApresamientoToroBlanco(), kSession);
 		            try {
 		            	lf.leerArchivo(entry.toString());
 		            } catch (IOException e) {

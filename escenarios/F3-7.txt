@@ -8,6 +8,11 @@ Teseo tiene el favor de Atenea
 Teseo tiene el favor de Hermes
 Teseo tiene el favor de Hades
 Teseo tiene el favor de Hefesto
+Heracles tiene el favor de Atenea
+Heracles tiene el favor de Hermes
+Heracles tiene el favor de Hades
+Heracles tiene el favor de Hefesto
 Casiopea tiene el enojo de Poseidon
 Minos apresa Teseo
 Minos apresa Perseo
+Minos apresa Heracles
