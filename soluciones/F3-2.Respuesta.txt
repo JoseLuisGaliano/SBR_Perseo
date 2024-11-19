@@ -11,8 +11,8 @@ Minos apresa a Dedalo
 Minos apresa a Icaro debido a ser hijo de Dedalo
 Dedalo construye las alas de Ícaro debido a que el minotauro está muerto
 Dedalo obtiene Capacidad VUELO debido a tener Alas de Icaro
-Dedalo escapa del laberinto debido a tener la capacidad Vuelo
 Icaro construye las alas de Ícaro debido a que el minotauro está muerto
 Icaro obtiene Capacidad VUELO debido a tener Alas de Icaro
+Dedalo escapa del laberinto debido a tener la capacidad Vuelo
 Icaro escapa del laberinto debido a tener la capacidad Vuelo
 Ícaro vuela demasiado alto con las alas y se muere

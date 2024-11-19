@@ -71,24 +71,5 @@ public class Lanzador {
 	    } catch (IOException e) {
 	    	e.printStackTrace();
 	    }
-		
-		/*
-		// EJECUCIÓN PARA DEBUGGEAR
-		
-		// Poblamos la base de hechos
-		BaseHechos bh = new BaseHechos(kSession);
-		bh.poblar();
-		 
-		// Llamamos al lector de fichero
-		LectorFichero lf = new LectorFichero(bh.getSeres(), bh.getObjetos(), bh.getPosesiones(), kSession);
-		try {
-			lf.leerArchivo("escenarios/F3-7.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		kSession.fireAllRules();
-		*/
-		
 	}
 }

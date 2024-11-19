@@ -1,20 +1,14 @@
-Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
-Andromeda queda presa debido a estar Ceto libre
-Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
-Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
-Hades obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
-Atenea obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
 Teseo obtiene Casco de Hades debido a tener el favor de Hades
-Hades pierde la capacidad INVISIBILIDAD
-Teseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
 Teseo obtiene Hoz de Acero debido a tener el favor de Hermes
 Teseo obtiene Bridas de Oro debido a tener el favor de Hefesto
 Teseo obtiene Espada Indestructible debido a tener el favor de Hefesto
 Teseo obtiene Escudo de Bronce debido a tener el favor de Atenea
-Atenea pierde la capacidad REFLEJO
+Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
+Las Ninfas obtiene Capacidad VUELO debido a tener Sandalias Aladas
+Teseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
 Teseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
-Teseo obtiene a Pegaso debido a tener las Bridas de Oro.
-Teseo obtiene Capacidad VUELO debido a tener Pegaso
+Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
+Andromeda queda presa debido a estar Ceto libre
 Teseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.
 Teseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
 Teseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas
@@ -22,10 +16,12 @@ Teseo localiza a las Ninfas debido a tener el favor de las Grayas
 Teseo obtiene Sandalias Aladas debido a tener el favor de Las Ninfas
 Teseo obtiene Zurron Magico debido a tener el favor de Las Ninfas
 Las Ninfas pierde la capacidad VUELO
+Teseo obtiene Capacidad VUELO debido a tener Sandalias Aladas
 Teseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma
 Teseo obtiene Cabeza de Medusa debido a matar a Medusa
 Teseo obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Teseo mata Ceto debido a tener la capacidad PETRIFICAR
+Teseo obtiene a Pegaso debido a tener las Bridas de Oro.
 Teseo libera a Andromeda debido a matar a Ceto
 
 CONCLUSIÓN: Teseo sí puede liberar a Andromeda

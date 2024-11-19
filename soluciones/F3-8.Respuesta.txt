@@ -9,36 +9,34 @@ Minos apresa a Andromeda debido a ser hijo de Casiopea
 Heracles enoja a Minos para colarse en el laberinto
 Minos apresa a Heracles
 Heracles mata al Minotauro
-Heracles escapa del laberinto debido a tener la capacidad Vuelo
 Heracles obtiene Cuerno del Minotauro debido a matar a Minotauro
 Teseo ha escapado del laberinto debido a tener el hilo de Ariadna y estar el Minotauro muerto
-Toro Blanco apresa a Heracles debido a que ha matado a su hijo, Minotauro
+Andromeda construye las alas de Ícaro debido a que el minotauro está muerto
+Andromeda obtiene Capacidad VUELO debido a tener Alas de Icaro
+Casiopea construye las alas de Ícaro debido a que el minotauro está muerto
+Casiopea obtiene Capacidad VUELO debido a tener Alas de Icaro
+Heracles construye las alas de Ícaro debido a que el minotauro está muerto
+Perseo construye las alas de Ícaro debido a que el minotauro está muerto
+Perseo obtiene Capacidad VUELO debido a tener Alas de Icaro
+Heracles escapa del laberinto debido a tener la capacidad Vuelo
 Minos se enoja con Dédalo debido al escape de Heracles
 Minos apresa a Dedalo
 Minos apresa a Icaro debido a ser hijo de Dedalo
 Dedalo construye las alas de Ícaro debido a que el minotauro está muerto
 Dedalo obtiene Capacidad VUELO debido a tener Alas de Icaro
-Dedalo escapa del laberinto debido a tener la capacidad Vuelo
 Icaro construye las alas de Ícaro debido a que el minotauro está muerto
 Icaro obtiene Capacidad VUELO debido a tener Alas de Icaro
-Icaro escapa del laberinto debido a tener la capacidad Vuelo
-Andromeda construye las alas de Ícaro debido a que el minotauro está muerto
-Andromeda obtiene Capacidad VUELO debido a tener Alas de Icaro
 Andromeda escapa del laberinto debido a tener la capacidad Vuelo
-Casiopea construye las alas de Ícaro debido a que el minotauro está muerto
-Casiopea obtiene Capacidad VUELO debido a tener Alas de Icaro
 Casiopea escapa del laberinto debido a tener la capacidad Vuelo
-Perseo construye las alas de Ícaro debido a que el minotauro está muerto
-Perseo obtiene Capacidad VUELO debido a tener Alas de Icaro
 Perseo escapa del laberinto debido a tener la capacidad Vuelo
 Perseo obtiene Escudo de Bronce debido a tener el favor de Atenea
 Atenea pierde la capacidad REFLEJO
-Perseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
 Perseo obtiene Espada Indestructible debido a tener el favor de Hefesto
 Perseo obtiene Hoz de Acero debido a tener el favor de Hermes
 Perseo obtiene Casco de Hades debido a tener el favor de Hades
 Hades pierde la capacidad INVISIBILIDAD
 Perseo obtiene Capacidad INVISIBILIDAD debido a tener Casco de Hades
+Perseo obtiene Capacidad REFLEJO debido a tener Escudo de Bronce
 Perseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.
 Perseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
 Perseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas
@@ -49,8 +47,11 @@ Las Ninfas pierde la capacidad VUELO
 Perseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma
 Perseo obtiene Cabeza de Medusa debido a matar a Medusa
 Perseo obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
+Icaro escapa del laberinto debido a tener la capacidad Vuelo
+Dedalo escapa del laberinto debido a tener la capacidad Vuelo
 Ícaro vuela demasiado alto con las alas y se muere
-Perseo, Ariadna y Teseo colaboran para matar a Toro Blanco debido a que al menos uno de ellos tiene la capacidad PETRIFICAR
-Teseo libera a Heracles debido a matar a Toro Blanco
+Toro Blanco apresa a Heracles debido a que ha matado a su hijo, Minotauro
+Teseo, Ariadna y Perseo colaboran para matar a Toro Blanco debido a que al menos uno de ellos tiene la capacidad PETRIFICAR
+Perseo libera a Heracles debido a matar a Toro Blanco
 
-CONCLUSIÓN: Teseo sí puede liberar a Heracles
+CONCLUSIÓN: Perseo sí puede liberar a Heracles

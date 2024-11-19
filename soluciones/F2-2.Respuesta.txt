@@ -1,13 +1,12 @@
-Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
-Andromeda queda presa debido a estar Ceto libre
+Perseo obtiene Hoz de Acero debido a tener el favor de Hermes
+Perseo obtiene Bridas de Oro debido a tener el favor de Hefesto
+Perseo obtiene Espada Indestructible debido a tener el favor de Hefesto
 Medusa obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Perseo obtiene Capacidad INVISIBILIDAD debido a tener Anillo de Invisibilidad
 Perseo obtiene Capacidad VUELO debido a tener Conjuro de Vuelo
 Perseo obtiene Capacidad REFLEJO debido a tener Espejo de Mano
-Perseo obtiene Hoz de Acero debido a tener el favor de Hermes
-Perseo obtiene Bridas de Oro debido a tener el favor de Hefesto
-Perseo obtiene Espada Indestructible debido a tener el favor de Hefesto
-Perseo obtiene a Pegaso debido a tener las Bridas de Oro.
+Ceto queda libre debido a el enojo de Poseidon hacia Casiopea
+Andromeda queda presa debido a estar Ceto libre
 Perseo localiza a las Grayas debido a tener el favor de Hermes y Atenea.
 Perseo obtiene el Ojo/Diente de las Grayas debido tener Invisibilidad y las Grayas localizada.
 Perseo obtiene el favor de las Grayas debido al intercambio de Ojo/Diente de las Grayas a las Grayas
@@ -17,6 +16,7 @@ Perseo mata a Medusa debido a tener Vuelo, Invisibilidad, Espejo y un arma
 Perseo obtiene Cabeza de Medusa debido a matar a Medusa
 Perseo obtiene Capacidad PETRIFICAR debido a tener Cabeza de Medusa
 Perseo mata Ceto debido a tener la capacidad PETRIFICAR
+Perseo obtiene a Pegaso debido a tener las Bridas de Oro.
 Perseo libera a Andromeda debido a matar a Ceto
 
 CONCLUSIÓN: Perseo sí puede liberar a Andromeda
