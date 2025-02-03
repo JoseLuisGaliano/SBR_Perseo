@@ -6,6 +6,7 @@ Escrito en Java con la herramienta drools. El sistema, en base a un escenario de
 
 - [Jose Luis Galiano Gómez](https://github.com/JoseLuisGaliano)
 - [Miguel Salinas Egea](https://github.com/MiguelSalinasE)
+- [Nacho Martínez-Lozano Pérez](https://github.com/NachoMartinezLozano)
 
 **Fecha de desarrollo**: Octubre - Noviembre 2024
 
